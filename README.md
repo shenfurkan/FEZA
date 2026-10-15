@@ -1,11 +1,14 @@
 # FEZA
 
+**Framework for Extraterrestrial & Zenith-grade Astrophysics**
+
 Version 0.0.1 · [MIT license](LICENSE.txt)
 
-FEZA is an Agent Skill for astronomy work in OpenCode, Claude Code and Codex.
-It contains Markdown instructions and Python recipes for working
-with observational data, checking scientific inputs and navigating Python source.
-The assistant adapts those recipes into code in the user's project.
+FEZA is an astronomy Agent Skill for **OpenCode, Claude Code and Codex**. It brings
+together **native Astropy/Astroquery workflows**, **NASA-informed software
+engineering and assurance practices**, and **AST-based Python navigation designed
+to reduce unnecessary LLM context usage**. Its Markdown instructions and Python
+recipes guide the assistant's work directly in the user's research project.
 
 FEZA is not a Python package or a data-reduction pipeline. There is no `import feza`
 or FEZA command-line program. Installing the skill makes its instructions available
@@ -13,6 +16,9 @@ to the assistant; it does not install scientific libraries or run an analysis.
 
 ## Contents
 
+- [Why FEZA exists](#why-feza-exists)
+- [NASA-informed engineering and assurance](#nasa-informed-engineering-and-assurance)
+- [Context reduction without discarding evidence](#context-reduction-without-discarding-evidence)
 - [Scope](#scope)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -25,6 +31,86 @@ to the assistant; it does not install scientific libraries or run an analysis.
 - [Verification and limitations](#verification-and-limitations)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Why FEZA exists
+
+FEZA's purpose is to help researchers use coding assistants for astronomy without
+losing the scientific meaning of their data or filling the context window with
+irrelevant implementation details. The goal is not just code that runs or a plot
+that looks plausible, but an inspectable path from inputs and documented methods
+to outputs whose assumptions, uncertainty and verification status are clear.
+
+The skill turns that goal into working instructions:
+
+- **Reuse established astronomy tools.** Write native Astropy/Astroquery code in
+  the research project rather than introducing an opaque FEZA API or reimplementing
+  an applicable instrument pipeline.
+- **Preserve scientific meaning.** Carry units, masks, exact source identifiers,
+  time scales, coordinate frames and calibration information through the analysis;
+  retain covariance where the method requires it.
+- **Keep claims tied to evidence.** Check methods against applicable primary
+  sources and product documentation. Missing observations, unsupported coefficients
+  and failed checks remain explicit problems, not invented defaults or silent fixes.
+- **Make work reviewable.** Keep raw inputs unchanged, write derivatives to new
+  paths and report the actual code, selections, versions, checks and unresolved
+  limits needed to understand the output.
+
+The process stays proportional: source navigation returns a code map and relevant
+findings; code-only requests return code with its check status; consequential
+scientific interpretation needs its own acceptance evidence and responsible human.
+These are instructions for the assistant, not a runtime enforcement system or a
+guarantee that generated code is scientifically valid.
+
+## NASA-informed engineering and assurance
+
+NASA documents are a design basis for FEZA's workflow, not just bibliography
+entries. They contribute three complementary perspectives:
+
+| Basis | How it informs FEZA's instructions |
+|---|---|
+| **NPR 7150.2D — NASA Software Engineering Requirements** (§§3.1, 3.5, 3.12, 5.1) | Consider reuse before new development; establish intended use and classification rationale; connect requirements to verification and defects; identify relevant code, data and tool versions |
+| **NASA-STD-8739.8B — Software Assurance and Software Safety Standard** (§4) | Distinguish software checks from assurance and safety-criticality decisions; identify applicable project responsibilities rather than treating an agent's review as independent approval |
+| **NASA-STD-7009B — Standard for Models and Simulations** (§§4.2–4.3) | Make input provenance, units, assumptions, permissible-use limits, warnings and uncertainty visible when assessing and reporting derived results |
+
+In practice, FEZA asks the assistant to **reuse → verify → inspect → record →
+report**, within the user's authorized scope. A passing software test is not
+evidence of adequate instrument calibration, model adequacy or a physical discovery.
+Consequential work needs an intended-use and criticality decision; read-only source
+navigation does not inherit a scientific approval form.
+
+**NASA-informed does not mean NASA-affiliated, endorsed, certified or fully
+compliant.** Actual requirements depend on the project and governing agreements.
+FEZA cannot grant classification approval, waivers or independent verification
+status, and is not a stand-alone process for flight or operational-control work.
+The [standards guide](skills/feza/references/standards.md) explains applicability;
+the [development bibliography](docs/sources.md#nasa-standards-and-context-navigation)
+identifies the primary documents.
+
+## Context reduction without discarding evidence
+
+FEZA aims to spend the model's context on the current question rather than on
+repeated full-file reads. It uses two complementary approaches:
+
+1. **On-demand guidance:** load the skill entrypoint and only the reference
+   sections relevant to the request, not every astronomy recipe at once.
+2. **Structure-first source navigation:** search for files and symbols, generate
+   an abstract syntax tree (AST) skeleton for an unfamiliar large Python module,
+   then read the original implementation ranges and connected callers/tests.
+   The map retains signatures, docstrings, imports and selected enclosing structure;
+   implementation statements are omitted where they are not needed for navigation.
+
+The sequence is **search → map → read → check**, not "replace the source with a
+summary." Exact qualified-symbol focus narrows a map to a class or method, original
+line labels point back to the code, and short path/symbol checkpoints avoid
+reloading the same module. Known source ranges can be read directly without a map.
+
+This reduces what is requested for inspection, not the scientific evidence kept
+on disk. Units, provenance, uncertainties, relevant equations and failure evidence
+must not be discarded to fit a context budget. The approach takes design inspiration
+from *Stingy Context*, but FEZA's stdlib AST recipe is separately written: it does
+not implement TREEFRAG or claim the paper's compression ratios. Actual model-token
+savings and agent-quality gains remain unmeasured. See
+[Python source navigation](#python-source-navigation) for the recipe and limits.
 
 ## Scope
 
