@@ -1,0 +1,139 @@
+# NASA standards behind FEZA's workflow
+
+Applicability depends on the project's intended use and governing agreements. FEZA
+**aligns with** these practices; it does not make any project compliant and it
+cannot tailor a requirement. Compliance with NPR 7150.2D is verified by submission
+of the completed Requirements Mapping Matrix(ces) and by internal and external
+controls (P.5); relief from an applicable "X" requirement "can be granted only by
+the designated TAs, Engineering, and SMA, or, for security issues, the NASA CIO"
+(SWE-125 note).
+
+## Contents
+
+- [Who is bound](#who-is-bound)
+- [Which class is a science analysis?](#which-class-is-a-science-analysis-npr-71502d-appendix-d)
+- [What FEZA covers, and what it does not](#what-feza-covers-and-what-it-does-not)
+- [Reporting results](#reporting-results-nasa-std-7009b)
+- [Releasing code](#releasing-code-spd-41a-apd-policy-13)
+
+## Who is bound
+
+| Document | Binds | Reaches a grant-funded researcher? |
+|---|---|---|
+| NPR 7150.2D software engineering | NASA HQ and Centers | Only via award terms: applicability "alone is not sufficient to stipulate requirements for the contractor, grant recipient, or agreement" (P.2.a) |
+| NASA-STD-8739.8B software assurance | NASA HQ and Centers, keyed to NPR 7150.2D class | Only via applicable agreement terms |
+| NASA-STD-7009B models and simulations | Where a directive or agreement cites it (§1.2) | Same |
+| SPD-41a SMD information policy | SMD-funded work (§II.F), subject to its scope/exclusions | Via applicable SMD funding terms |
+| APD Policy-13 v1.8 | Astrophysics Division funding (expires 2027-01-13) | Via applicable APD funding terms |
+
+NPR 2210.1E (software release) governs NASA's own releases. NASA civil servants may
+release "Scientific Research Demonstration Software" with the paper (P.2.g).
+
+## Which class is a science analysis? (NPR 7150.2D Appendix D)
+
+| Class | Definition (verbatim fragments) | Scope reminder, not a classification decision |
+|---|---|---|
+| C | "Flight or ground software used to analyze or process mission data" | Out of scope: mission pipelines follow the mission's process |
+| D | "Ground software that performs secondary science data analysis" | Check all definitions/exclusions; publication alone does not select D |
+| E | "Software used to perform minor analyses of science or experimental data"; excludes "Software that can adversely affect the integrity of engineering/scientific artifacts" | Minor/exploratory use is insufficient without checking exclusions and criticality |
+
+NPR 7150.2D §3.5.1–3.5.2 (printed pp.24–25) and Appendix D.1–D.2 (p.79)
+require classification from intended use, system criticality, human dependence,
+complexity and investment, retaining the determination. When multiple classes
+apply, assign the highest applicable class, not automatically D. Read the full
+Class C/D/E definitions and exclusions (pp.82–85); the table is not exhaustive.
+
+**FEZA policy:** Before consequential work, retain intended use, consequences, classification
+rationale, criticality, acceptance evidence and the responsible human decision-maker.
+Unknown applicability stops the consequential workflow pending project review.
+Class C/flight/operational-control work is outside FEZA's stand-alone process.
+
+Missing hazard analysis/traceability does **not** establish noncriticality.
+NASA-STD-8739.8B §4.2 (pp.15–16) and NPR 7150.2D §3.7 (pp.26–27) require an
+actual safety-criticality determination. Evaluate mission criticality too: SWE-134
+addresses both. Assess IV&V applicability separately under NPR §3.6 (p.25).
+Record applicable requirements, verification/nonconformance links and unresolved
+decisions; FEZA cannot grant exclusions, tailoring, waivers, TA approval or IV&V status.
+Proportionate quick-look reporting is a workflow choice, not a software class.
+
+## What FEZA covers, and what it does not
+
+NPR 7150.2D Appendix C and the LaRC Requirements Mapping Matrix templates for
+Class D and Class E
+(center versions) carry the same markings.
+
+Class D invokes 64 requirements (5 of them only for safety-critical software); Class E
+invokes 12. **FEZA addresses 12 of the Class D set and 2 of the Class E set.** It is
+not a Requirements Mapping Matrix: plans, classification records, configuration
+management procedures (SWE-079–085 beyond 081), coding standards (SWE-061), test plans
+(SWE-065/071) and operations/retirement (SWE-075, 077, 194–196) stay with the project.
+
+| Practice | Requirement | D | E | FEZA step |
+|---|---|---|---|---|
+| Assess acquiring/reusing vs developing | SWE-033 | X | X | 1 Reuse |
+| Cybersecurity assessment incl. OSS risks | SWE-156 | X | X | 1 Reuse |
+| OSS/reused component V&V'd "to the same level required to accept a similar developed software component for its intended use" | SWE-027 | X | – | 2 Verify |
+| Unit test the code; results repeatable | SWE-062, SWE-186 | X | – | 2 Verify |
+| Static analysis for defects, security, complexity | SWE-135 | X | – | 2 Verify (`ruff check`) |
+| Test against requirements; evaluate and record results | SWE-066, SWE-068 | X | – | 2 Verify |
+| Measure and record code coverage | SWE-189 | X | – | 4 Record |
+| Identify configuration items and their versions | SWE-081 | X | – | 4 Record |
+| Version description for each release | SWE-063 | X | – | 4 Record |
+| Track nonconformances (defects) to closure | SWE-201 | X | – | 4 Record |
+
+Thresholds NASA does not set for this code: SWE-135's note says "no maximum
+cyclomatic complexity score is required for non-safety critical software", and
+SWE-189 sets no coverage percentage. Its note does require that code left
+uncovered be classified as a missing requirement, a missing test, dead code or
+deactivated code. SWEHB coverage guidance (guidance only, SWE-189) says statement
+coverage "might suffice for non-critical systems where reliability is important but
+not safety-related" for research and scientific analysis software.
+
+The phrase "single use software in a Research & Technology project" seen in the
+LaRC Class D template (SWE-075/077) is LaRC compliance guidance, not NPR text.
+
+## Reporting results (NASA-STD-7009B)
+
+7009B is "highly recommended" for M&S behind critical decisions; elsewhere its use
+"is encouraged" (§1.2). Its note on Analysis says it spans "the gathering and
+reduction of data", so FEZA applies its reporting rules to fitted and derived
+results:
+
+- **M&S 33**: report "a quantitative estimate", "a qualitative description", or "a
+  clear statement that no quantitative estimate or qualitative description of
+  uncertainty is available"; **M&S 34**: describe the process used.
+- **M&S 27**: record "warning messages, error messages, and explanations for the messages".
+- **M&S 32**: warn on (a) unachieved acceptance criteria, (b) violated assumptions,
+  (c) exceeded limits, (d) warning/error messages, (e) unfavorable appropriateness to
+  the use, (f) setup or usage issues, (g) waivers, (h) outstanding defects; "In the
+  absence of substantiating evidence … a warning is to be provided".
+- **M&S 26**: use within "the permissible uses and within the domains of V&V", or
+  placard the result with the limit exceeded, the extent and the consequence.
+- **M&S 11, 24, 46**: record assumptions, input pedigree, units and coordinate frames.
+- NASA-HDBK-7009B §4.5.3 (guidance): an AI application used for analysis "should
+  also be evaluated for its possible impacts on credibility". The reviewed copy
+  has conflicting approved-cover/draft-header markings; do not treat it as
+  authoritative final requirements. FEZA's AI assistance still needs evaluation.
+
+FEZA does not adopt 7009B's criticality matrix, 0–4 credibility scoring or
+risk-acceptance records: they need program-set thresholds an agent cannot supply.
+
+## Releasing code (SPD-41a, APD Policy-13)
+
+SPD-41a "shall" is mandatory, "should" is recommended (§II.H):
+
+- §VII.C: SMD-funded software "used in support of a scientific, peer-reviewed
+  publication shall be released as open source software no later than the
+  publication date"; it need not be maintained or supported.
+- §VII.D: other software from the award is released at its end, "to extent practicable".
+- §III.D, once public: a repository "widely recognized by the community" (v), "citable
+  using a persistent identifier" (vii), reported for the NASA software catalog unless
+  single-use (vi), and, for software projects, "a code of conduct and guidelines for how
+  to make contributions" (iv). A permissive license is a "should" (iii).
+- §III.G: activities "shall include a software management plan".
+- Out of scope: "software developed only for preliminary analysis, plans for future
+  research, or communication with colleagues" (§II.B.iii.b).
+- APD Policy-13 §3.2.h: Astrophysics-funded software "shall be released under a
+  permissive license". The OSS Guidance v2.2
+  notes documentation and testing "are not required to be provided under SPD-41a",
+  so FEZA's tests are engineering practice, not an open-science obligation.

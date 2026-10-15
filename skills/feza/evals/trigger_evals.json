@@ -1,0 +1,23 @@
+[
+  {"query": "can you open ~/data/jw02736007001_03101_00001_nrcb1_cal.fits and tell me which extension has the science image and what units it's in", "should_trigger": true},
+  {"query": "i have a csv of 400 gaia dr3 source_ids from my cluster paper, need ra/dec/pmra/pmdec/parallax for all of them, whats the right adql", "should_trigger": true},
+  {"query": "crossmatch my sdss quasar list (ra, dec in degrees, epoch 2000) against our 2MASS table, I need every candidate within 2 arcsec", "should_trigger": true},
+  {"query": "TESS light curve, TIME column is BTJD. how do I get that into a proper astropy Time in TDB for a transit ephemeris", "should_trigger": true},
+  {"query": "My referee says my line flux uncertainty ignores that I resampled the spectrum before integrating. How do I fix the error bar?", "should_trigger": true},
+  {"query": "convert this x1d flux column from flambda to fnu, the error column too, it's for an SED fit", "should_trigger": true},
+  {"query": "pixel (512.3, 1020.8) on my HST drizzled image — what's the RA/Dec? header has CD matrix and SIP terms", "should_trigger": true},
+  {"query": "I want to use the Gordon 2023 extinction curve in my analysis, can you check exactly which table and version of the paper I should transcribe", "should_trigger": true},
+  {"query": "make a publication figure of my COS spectrum with the bad-quality pixels marked and write the caption", "should_trigger": true},
+  {"query": "is ruwe > 1.4 a good cut for my binary sample or am I throwing away real stars", "should_trigger": true},
+  {"query": "map this large Python astronomy analysis module with an AST skeleton, then read just the original function ranges and their callers", "should_trigger": true},
+  {"query": "what telescope should I buy to look at saturn from my balcony, budget about 600 euros", "should_trigger": false},
+  {"query": "write me a python script that resizes all the .jpg astrophotography images in this folder to 1080p", "should_trigger": false},
+  {"query": "my horoscope app needs the sun sign for a birth date, write a function that maps dates to zodiac signs", "should_trigger": false},
+  {"query": "convert my running data from the garmin .fit file to csv", "should_trigger": false},
+  {"query": "Gaia is the name of our new microservice; set up the FastAPI skeleton and Dockerfile for it", "should_trigger": false},
+  {"query": "fit a Gaussian process to this monthly sales data and give me 95% intervals for next quarter", "should_trigger": false},
+  {"query": "explain in simple words for my 10-year-old why the sky is blue", "should_trigger": false},
+  {"query": "our spacecraft thermal model in MATLAB is diverging after the eclipse phase, help me debug the solver", "should_trigger": false},
+  {"query": "convert units in this recipe from cups to grams for my baking blog", "should_trigger": false},
+  {"query": "turn my thesis chapter on dark matter halos into a 10-slide powerpoint for group meeting", "should_trigger": false}
+]
