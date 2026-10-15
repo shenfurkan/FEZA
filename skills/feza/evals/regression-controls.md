@@ -3,6 +3,8 @@
 These are target-neutral **synthetic development controls**, not observations,
 held-out assessment data or execution evidence. They retain the failing cases
 before the corresponding recipe repairs. Run only on an approved compute host.
+This file includes expected outcomes for the evaluator. For behavioral cases
+10–13, give candidates only the relevant input from `scenarios.md`, not this file.
 Retain the generated analysis, environment and exact inputs before comparison;
 report each outcome and retain failures. Do not derive expected values by running
 the recipe under test. A separate held-out assessment is still required.

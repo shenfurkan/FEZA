@@ -1,7 +1,8 @@
 # FEZA 0.0.1 — verification scope
 
-Preparation date: 2026-10-15. This is a development record, not installed skill
-content, independent approval, NASA certification or scientific validation.
+Preparation date: 2026-10-15; client integration updated 2026-10-16. This is a
+development record, not installed skill content, independent approval, NASA
+certification or scientific validation.
 
 ## Intended use and authority
 
@@ -47,28 +48,51 @@ carrying the old denominator forward as a current score.
 - Development bibliography and local collection paths moved out of the skill into
   `docs/sources.md`; installed users do not inherit the developer download rule.
 - The entrypoint routes navigation separately from scientific acceptance/reporting.
+- The report step now explicitly limits physical acceptance comparisons to
+  interpreted scientific results, not code-only work. The standards crosswalk
+  names related practices/project responsibilities rather than claiming counted
+  requirement coverage from installed instructions.
+- Behavioral cases 10–13 now point to input-only `scenarios.md`; their expectations
+  remain evaluator-side. Known-answer numerical controls remain development aids,
+  not candidate instructions or held-out evidence. No new comparison was run.
+- Claude Code marketplace/plugin manifests were added without executable hooks or
+  duplicate skill sources. `claude plugin validate .` and
+  `claude plugin validate .claude-plugin/plugin.json` both returned
+  `Validation passed`, exit 0. These are local metadata checks, not installations.
+- OpenCode V2 documentation was reviewed for native skill discovery, `skills`
+  source arrays, `@feza`, permissions and reload. README/installation instructions
+  now distinguish its Markdown skill support from its executable plugin API.
+  No OpenCode or Claude Code user configuration was changed during preparation.
 - Static verification covers portable frontmatter/version consistency, JSON and
   mirror consistency, Markdown paths/anchors and embedded-Python compilation.
 - No embedded recipe, analysis, observation, network query, client install or
   scientific numerical pipeline is executed by these static checks.
 - Current behavior tests, benchmarks, new with/without-skill trials and automated
   description optimization were **not run**, per operator direction.
+- Static checks are now reproducible from a clone with `python3 tools/validate.py`,
+  without the ignored literature collection. The GitHub workflow is manual-only;
+  no remote job was started. The tool checks this repository's formatting and
+  metadata conventions; it is not a complete Markdown/YAML/client validator.
 
 ### Static outcomes for this revision
 
-The bounded static checker ran with Python 3.14.4; it did not import or execute
-any fenced recipe or fixture. Results:
+The repository's `tools/validate.py` ran with Python 3.14.4; it did not import or
+execute any fenced recipe or fixture. It replaces the local `/tmp`-only checker
+and includes indented fences that earlier syntax counts omitted. Results:
 
 | Static check | Outcome |
 |---|---|
-| Markdown files inspected | 16 |
-| Python fences parsed with Python 3.12 grammar and compiled for syntax | 24, no syntax errors |
-| Bash fences checked with `bash -n` | 8, no syntax errors |
-| Relative paths/anchors checked | 90, no missing targets/anchors or links outside the installed skill |
+| Markdown files inspected | 17 |
+| Python fences parsed with Python 3.12 grammar and compiled for syntax | 28, no syntax errors |
+| Development scripts compiled without importing | 1, no syntax errors |
+| Bash fences checked with `bash -n` | 18, no syntax errors |
+| JSON configuration examples parsed | 2, valid JSON; V2 field shapes reviewed against official documentation |
+| Relative paths/anchors checked | 102, no missing targets/anchors or links outside their distribution boundaries |
 | Canonical eval JSON parsed / byte-identical mirrors | 2 / 2; 14 declared cases |
-| Development literature files indexed | 66/66 |
+| Claude Code marketplace and plugin manifests | Both passed `claude plugin validate`, CLI 2.1.300; name/version/source consistency also checked |
+| Development literature files indexed separately (not needed in a clone) | 78/78 |
 | Entrypoint metadata and version consistency | Matched `feza` / `0.0.1` |
-| Final read-only reviews | No remaining concrete blockers reported within skeleton/documentation scope |
+| Earlier read-only reviews | No blockers reported within skeleton/earlier-documentation scope; not client-integration tests |
 
 The official `skills-ref` validator was not rerun in this pass; frontmatter fields
 and version were unchanged, and their consistency was checked statically without

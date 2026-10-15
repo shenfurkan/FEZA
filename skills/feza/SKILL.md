@@ -57,10 +57,11 @@ reloading whole files. A skeleton is navigation, never executable evidence.
 4. **Record:** retain actual code, input/version/query, selections, environment and
    check outcomes. Measure coverage/classify uncovered code when required by the
    generated project; record defects rather than hiding them.
-5. **Report:** predeclare the physical acceptance criterion; compare with an
-   applicable independent reference or leave that check unresolved. Dimensional
-   consistency alone is not physical plausibility. Lead with the useful output;
-   use the [results report](assets/results-report.md) for consequential results.
+5. **Report:** for interpreted scientific results, predeclare the physical
+   acceptance criterion and compare with an applicable independent reference, or
+   leave that check unresolved. Code-only work needs code checks, not a physical
+   oracle. Lead with the useful output; use the [results report](assets/results-report.md)
+   for consequential scientific results.
 6. **Release only when authorized:** applicable SMD/APD awards have publication,
    repository, identifier and license terms; consult [policy scope](references/standards.md#releasing-code-spd-41a-apd-policy-13).
    FEZA never publishes merely because it prepared an artifact.

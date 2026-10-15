@@ -2,10 +2,11 @@
 
 These primary papers, standards and official documents were used while writing
 and reviewing FEZA. This development bibliography stays outside `skills/feza/`;
-it is not installed or loaded with the skill. Local paths are relative to the
-repository root and identify the developer's git-ignored collection, not files a
-user needs to download or install. Source names, versions and locators support
-review; they are not scientific validation or an installation manifest.
+it is not part of the skill instructions or automatically loaded. Local paths are
+relative to the repository root and identify the developer's git-ignored
+collection, not files a user needs to download or install. Source names, versions
+and locators support review; they are not scientific validation or an installation
+manifest.
 
 ## Contents
 
@@ -182,9 +183,36 @@ specific scientific inputs; these API citations cannot supply them.
   (`literature/agent_skills_specification_20261015.md`): portable frontmatter,
   directory layout, on-demand resources and relative links. `skills-ref` checks
   frontmatter/naming, not behavioral correctness or production certification.
+- [Agent Skills creator best practices](https://agentskills.io/skill-creation/best-practices)
+  (`literature/agent_skills_best_practices_20261016.md`): task-scoped instructions,
+  progressive disclosure and procedures rather than unsupported quality claims.
 - [Claude Code skills](https://code.claude.com/docs/en/skills)
   (`literature/claude_code_skills_20261015.md`): project/personal locations,
   symlink discovery, invocation, account uploads and live skill changes.
+- Claude Code [marketplace creation](https://code.claude.com/docs/en/plugins/create-marketplace),
+  [marketplace reference](https://code.claude.com/docs/en/plugins/marketplace-reference),
+  [plugin manifest reference](https://code.claude.com/docs/en/plugins/manifest-reference)
+  and [plugin installation](https://code.claude.com/docs/en/plugins/install)
+  (`literature/claude_code_plugin_marketplaces_20261015.md`,
+  `literature/claude_code_plugin_marketplace_reference_20261015.md`,
+  `literature/claude_code_plugin_manifest_20261015.md`,
+  `literature/claude_code_plugin_install_20261015.md`): native marketplace/plugin
+  packaging, namespaces, scope and update commands. Both FEZA JSON manifests passed
+  the installed CLI's local validation (Claude Code 2.1.300); no plugin was installed.
+- OpenCode **V2** [Skills](https://opencode.ai/v2/docs/skills/),
+  [Config](https://opencode.ai/v2/docs/config/),
+  [Permissions](https://opencode.ai/v2/docs/permissions/),
+  [CLI commands](https://opencode.ai/v2/docs/cli/commands/) and
+  [Plugin overview](https://opencode.ai/v2/docs/build/plugins/)
+  (`literature/opencode_v2_skills_20261016.md`,
+  `literature/opencode_v2_config_20261016.md`,
+  `literature/opencode_v2_permissions_20261016.md`,
+  `literature/opencode_v2_cli_commands_20261016.md`,
+  `literature/opencode_v2_plugin_guide_20261016.md`): native discovery,
+  path-derived skill IDs, `@feza`, the `skills` array, permission scope and reload.
+  The documented runtime plugin API is distinct from the Markdown skill format;
+  FEZA needs no OpenCode executable plugin. Only V2 docs were used for these
+  instructions; V1 config shapes were not inferred from the editor schema URL.
 - [Vercel Labs skills 1.7.2](https://github.com/vercel-labs/skills/blob/v1.7.2/README.md),
   [npm metadata](https://registry.npmjs.org/skills/1.7.2) and
   [Codex skills](https://developers.openai.com/codex/build-skills) are the documented
@@ -192,6 +220,11 @@ specific scientific inputs; these API citations cannot supply them.
   `literature/vercel_skills_v1.7.2_metadata.json`,
   `literature/codex_build_skills_20261015.md`). No installer/client session was
   executed for this revision; `INSTALLATION.md` keeps that limitation explicit.
+- [GitHub: Manually running a workflow](https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow)
+  (`literature/github_manual_workflows_20261016.html`) and
+  [actions/checkout v7.0.1 inputs](https://github.com/actions/checkout/blob/v7.0.1/action.yml)
+  (`literature/github_checkout_v7.0.1_action.yml`): manual workflow dispatch and
+  checkout without persisted credentials. The workflow is prepared, not launched.
 
 ## Skeleton design basis
 

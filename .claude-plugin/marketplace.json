@@ -1,0 +1,14 @@
+{
+  "name": "feza",
+  "description": "FEZA astronomy skill for Claude Code.",
+  "owner": {
+    "name": "shenfurkan"
+  },
+  "plugins": [
+    {
+      "name": "feza",
+      "source": "./",
+      "description": "Astronomy analysis recipes and Python source navigation."
+    }
+  ]
+}

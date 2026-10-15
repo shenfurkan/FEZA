@@ -1,9 +1,8 @@
 # FEZA skill
 
-**0.0.1 · MIT · 100% Pure-Markdown Agent Skill**
+Version 0.0.1 · MIT
 
-Start with [SKILL.md](SKILL.md). It routes the scientist's requested observable to
-the relevant reference rather than loading an astronomy encyclopedia.
+Start with [SKILL.md](SKILL.md), then read the reference section for the task.
 
 | Work | Reference |
 |---|---|
@@ -15,8 +14,8 @@ the relevant reference rather than loading an astronomy encyclopedia.
 | NASA basis, applicability and project-policy limits | [Standards](references/standards.md) |
 | Lean code context across all research routes | [Stingy Context](references/stingy-context.md) |
 
-FEZA is a **100% pure-Markdown Agent Skill**, not a pip package, library API or
-build-package hybrid. Coding agents load FEZA from their client's skill location
+FEZA contains Markdown instructions and Python recipes, not an importable analysis
+library. Coding agents load FEZA from their client's skill location
 and write native, self-contained Astropy and Astroquery code
 directly inside the user's project. There is no FEZA module to import or wrapper
 to invoke.
@@ -25,13 +24,17 @@ results; a code-navigation request needs only paths, source ranges and findings.
 
 ## Use
 
-Keep this `feza/` directory together. Claude Code discovers it under
-`.claude/skills/feza/` or `~/.claude/skills/feza/` and invokes it with `/feza`.
+Keep this `feza/` directory together. With the FEZA Claude Code plugin, invoke
+`/feza:feza`. Direct copies under `.claude/skills/feza/` or
+`~/.claude/skills/feza/` use `/feza` instead. Use one installation method to avoid
+duplicate entries.
+OpenCode V2 reads `.opencode/skills/feza/`, `~/.config/opencode/skills/feza/` or a
+configured `skills` source; mention `@feza` to load it. A runtime plugin is not
+needed.
 Codex uses `.agents/skills/feza/` or `~/.agents/skills/feza/` and `$feza` or
 `/skills`. Other clients have their own discovery/invocation conventions;
 `skills/feza/` is the repository's source layout, not a universal discovery path.
 Reading the skill needs no Python, server, hook, credential or literature bundle.
-Developer bibliographies and source-download rules are not installed with FEZA.
 
 The Markdown reference snippets are self-contained, adaptable Python recipes.
 Executing generated analysis code in the user's project requires the scientist's
@@ -61,6 +64,6 @@ scientific evidence or the requirement to inspect callers/tests before editing.
 and locally stored papers, software, documentation and observations retain their
 terms.
 
-FEZA does not provide a calibrated dust law, distance estimator, reduction pipeline,
-universal quality threshold or scientific-validation engine. It delivers useful
-artifacts with explicit assumptions, units and evidence boundaries.
+FEZA does not provide a calibrated dust law, distance estimator, reduction pipeline
+or universal quality threshold. Check generated code and scientific results
+against the actual inputs, assumptions and intended use.

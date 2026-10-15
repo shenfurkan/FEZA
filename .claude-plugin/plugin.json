@@ -1,0 +1,10 @@
+{
+  "name": "feza",
+  "version": "0.0.1",
+  "description": "Astronomy analysis recipes and Python source navigation.",
+  "author": {
+    "name": "shenfurkan"
+  },
+  "repository": "https://github.com/shenfurkan/FEZA",
+  "license": "MIT"
+}

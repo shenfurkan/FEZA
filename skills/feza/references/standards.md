@@ -62,24 +62,24 @@ NPR 7150.2D Appendix C and the LaRC Requirements Mapping Matrix templates for
 Class D and Class E
 (center versions) carry the same markings.
 
-Class D invokes 64 requirements (5 of them only for safety-critical software); Class E
-invokes 12. **FEZA addresses 12 of the Class D set and 2 of the Class E set.** It is
-not a Requirements Mapping Matrix: plans, classification records, configuration
+The table below identifies **related practices**, not requirements implemented or
+verified by installing FEZA. It is not a Requirements Mapping Matrix: plans,
+classification records, configuration
 management procedures (SWE-079–085 beyond 081), coding standards (SWE-061), test plans
 (SWE-065/071) and operations/retirement (SWE-075, 077, 194–196) stay with the project.
 
-| Practice | Requirement | D | E | FEZA step |
+| Practice | Requirement | D | E | Related guidance / project responsibility |
 |---|---|---|---|---|
 | Assess acquiring/reusing vs developing | SWE-033 | X | X | 1 Reuse |
-| Cybersecurity assessment incl. OSS risks | SWE-156 | X | X | 1 Reuse |
-| OSS/reused component V&V'd "to the same level required to accept a similar developed software component for its intended use" | SWE-027 | X | – | 2 Verify |
-| Unit test the code; results repeatable | SWE-062, SWE-186 | X | – | 2 Verify |
-| Static analysis for defects, security, complexity | SWE-135 | X | – | 2 Verify (`ruff check`) |
-| Test against requirements; evaluate and record results | SWE-066, SWE-068 | X | – | 2 Verify |
+| Cybersecurity assessment incl. OSS risks | SWE-156 | X | X | Project assessment; reuse advice does not perform it |
+| OSS/reused component V&V'd "to the same level required to accept a similar developed software component for its intended use" | SWE-027 | X | – | 2 Verify supplies prompts; project acceptance evidence is still required |
+| Unit test the code; results repeatable | SWE-062, SWE-186 | X | – | 2 Verify; actual tests/results remain project work |
+| Static analysis for defects, security, complexity | SWE-135 | X | – | Project static-analysis runs; 2 Verify |
+| Test against requirements; evaluate and record results | SWE-066, SWE-068 | X | – | Project requirements/evidence; 2 Verify |
 | Measure and record code coverage | SWE-189 | X | – | 4 Record |
 | Identify configuration items and their versions | SWE-081 | X | – | 4 Record |
-| Version description for each release | SWE-063 | X | – | 4 Record |
-| Track nonconformances (defects) to closure | SWE-201 | X | – | 4 Record |
+| Version description for each release | SWE-063 | X | – | Project release description; a VERSION value alone is insufficient |
+| Track nonconformances (defects) to closure | SWE-201 | X | – | 4 Record logs defects; the project tracks closure |
 
 Thresholds NASA does not set for this code: SWE-135's note says "no maximum
 cyclomatic complexity score is required for non-safety critical software", and
