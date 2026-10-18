@@ -14,6 +14,7 @@ the designated TAs, Engineering, and SMA, or, for security issues, the NASA CIO"
 - [Which class is a science analysis?](#which-class-is-a-science-analysis-npr-71502d-appendix-d)
 - [What FEZA covers, and what it does not](#what-feza-covers-and-what-it-does-not)
 - [Reporting results](#reporting-results-nasa-std-7009b)
+  - [Claims and evidence](#claims-and-evidence)
 - [Releasing code](#releasing-code-spd-41a-apd-policy-13)
 
 ## Who is bound
@@ -70,16 +71,16 @@ management procedures (SWE-079–085 beyond 081), coding standards (SWE-061), te
 
 | Practice | Requirement | D | E | Related guidance / project responsibility |
 |---|---|---|---|---|
-| Assess acquiring/reusing vs developing | SWE-033 | X | X | 1 Reuse |
+| Assess acquiring/reusing vs developing | SWE-033 | X | X | Native-tool reuse guidance |
 | Cybersecurity assessment incl. OSS risks | SWE-156 | X | X | Project assessment; reuse advice does not perform it |
-| OSS/reused component V&V'd "to the same level required to accept a similar developed software component for its intended use" | SWE-027 | X | – | 2 Verify supplies prompts; project acceptance evidence is still required |
-| Unit test the code; results repeatable | SWE-062, SWE-186 | X | – | 2 Verify; actual tests/results remain project work |
-| Static analysis for defects, security, complexity | SWE-135 | X | – | Project static-analysis runs; 2 Verify |
-| Test against requirements; evaluate and record results | SWE-066, SWE-068 | X | – | Project requirements/evidence; 2 Verify |
-| Measure and record code coverage | SWE-189 | X | – | 4 Record |
-| Identify configuration items and their versions | SWE-081 | X | – | 4 Record |
+| OSS/reused component V&V'd "to the same level required to accept a similar developed software component for its intended use" | SWE-027 | X | – | Generated-code checks supply prompts; project acceptance evidence is still required |
+| Unit test the code; results repeatable | SWE-062, SWE-186 | X | – | Generated-code checks; actual tests/results remain project work |
+| Static analysis for defects, security, complexity | SWE-135 | X | – | Project static-analysis runs; generated-code checks |
+| Test against requirements; evaluate and record results | SWE-066, SWE-068 | X | – | Project requirements/evidence; generated-code checks |
+| Measure and record code coverage | SWE-189 | X | – | Project coverage measurement and uncovered-code classification |
+| Identify configuration items and their versions | SWE-081 | X | – | Input, code and environment provenance |
 | Version description for each release | SWE-063 | X | – | Project release description; a VERSION value alone is insufficient |
-| Track nonconformances (defects) to closure | SWE-201 | X | – | 4 Record logs defects; the project tracks closure |
+| Track nonconformances (defects) to closure | SWE-201 | X | – | Check outcomes record defects; the project tracks closure |
 
 Thresholds NASA does not set for this code: SWE-135's note says "no maximum
 cyclomatic complexity score is required for non-safety critical software", and
@@ -117,6 +118,22 @@ results:
 
 FEZA does not adopt 7009B's criticality matrix, 0–4 credibility scoring or
 risk-acceptance records: they need program-set thresholds an agent cannot supply.
+
+### Claims and evidence
+
+These are FEZA's evidence distinctions, not a mandatory response format or an
+additional NASA requirements table. Use the rows relevant to the requested claim.
+
+| Claim | Evidence required | Not sufficient |
+|---|---|---|
+| Generated analysis meets its code contract | Actual project checks and static results, with exact scope and outcomes | An earlier run, another machine, "should pass" |
+| A regression protects X | It distinguishes the original bug from the repair | Passing once |
+| The physical result meets its criterion | Predeclared comparison including reference uncertainty and dependence | Tests passing, same-pipeline agreement, correct units |
+| The uncertainty is σ | Named method, covariance and approximation/domain assessment; sampling when needed | An unexplained fit covariance |
+| A consequential result is ready for its intended use | Relevant results-report fields and acceptance evidence | A plot that looks right; a subagent saying "success" |
+
+Report unrun checks and unexplained warnings; withhold the affected claim rather
+than withholding every otherwise usable output.
 
 ## Releasing code (SPD-41a, APD Policy-13)
 

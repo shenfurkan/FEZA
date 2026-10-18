@@ -72,6 +72,7 @@
       "input_requirements": ["Multi-HDU FITS file with int64 IDs, masked columns, CHECKSUM/DATASUM keywords, input hash and independent readback expectations"],
       "expectations": [
         "Generates native, self-contained Python/Astropy code conforming to the installed references/astropy-workflows.md without importing any FEZA module or invoking external skill wrappers",
+        "Leads with the requested code and its actual check status, without requiring a scientific classification form, physical-result comparison or full results-report template for code-only work",
         "Opens FITS in readonly mode with memmap=False, calls verify('exception'), and distinguishes CHECKSUM/DATASUM matched (1), mismatch (0) and not provided",
         "Selects the target table HDU explicitly and verifies isinstance(selected, (fits.BinTableHDU, fits.TableHDU)) before Table.read",
         "Stages the ECSV export with serialize_method='data_mask' in an owned temporary directory, verifies schema, row count, dtype kind/itemsize, shape, units, mask arrays and underlying data on readback, and publishes atomically without clobbering existing files"
