@@ -1,14 +1,14 @@
 # [Result in one line: the number, figure or product, and its path]
 
-Use this template for consequential scientific results, not for source navigation
-or a simple read-only explanation. Adapt its length to the requested output;
+This optional template supports consequential scientific results, not source
+navigation or a simple read-only explanation. Use only the fields the result needs;
 retain applicable uncertainty, warnings, input identity and checks. Mark required
 but unavailable evidence "not run" or "unresolved"; omit genuinely inapplicable
 sections with a brief basis when it matters. This is FEZA's reporting aid, not a
 NASA-mandated Markdown format or an approval record.
 
 **Intended use and consequences:** [use; what a wrong result or failed operation could affect]
-**Classification:** [project determination and rationale; or unresolved/not formally applicable, with basis]
+**Classification, if applicable:** [project determination and rationale; or unresolved, with basis; omit when no formal project requirement applies]
 **Safety/mission criticality:** [determination and evidence; or unresolved, never inferred from absent traceability]
 **Decision owner:** [responsible human; decision status, not agent self-approval]
 **Produced with:** an AI agent (FEZA) [plus who reviewed it, or "not reviewed"]
@@ -36,7 +36,7 @@ Independent value: [what, from where; actual source locator] → Outcome:
 - Outside permissible use or the verified/validated domain: [limit type, extent,
   consequence; or "no"]
 - Method not appropriate for this use, or setup/usage issues: [what; or "none"]
-- Deviations from FEZA's workflow (e.g. tests or lint not run): [what; or "none"]
+- Unrun applicable project checks (e.g. tests or lint): [what; or "none"]
 - Open defects: [list; or "none"]
 
 ## Inputs and assumptions (M&S 11, 24, 46)

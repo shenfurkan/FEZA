@@ -13,7 +13,8 @@ metadata:
 Produce the requested code, data inspection, measurement or figure using native
 Astropy/Astroquery in the user's project. FEZA is a **pure-Markdown Agent Skill**,
 not an importable library, installer or permission grant. Load only the relevant
-reference section; loading the skill does not run an analysis.
+reference section; loading the skill does not run an analysis. These recipes support
+the agent's existing workflow; project instructions and permissions remain binding.
 
 ## Route the request (read only the row you need)
 
@@ -23,7 +24,7 @@ not a scientific classification form, physical reality check or full results rep
 
 | Request | Read | Return |
 |---|---|---|
-| Inspect a large Python analysis module; locate code without context bloat | [Stingy Context](references/stingy-context.md) | AST map with original line ranges, then targeted source reads |
+| Locate Python analysis code without context bloat | [Navigation choices](references/stingy-context.md#workflow) | Relevant paths and original ranges; a compact tree or AST map only if useful |
 | Open/inspect a FITS; choose an HDU | [Astropy §1](references/astropy-workflows.md#1-inventory-a-native-fits-before-choosing-data) | HDU inventory, checksum findings, explicit selection |
 | Preserve or export a catalogue/table | [Astropy §2](references/astropy-workflows.md#2-preserve-cataloguetable-semantics-when-exporting) | Derivative table + readback comparison |
 | Convert flux/units of a spectrum | [Astropy §3](references/astropy-workflows.md#3-convert-the-physical-quantity-not-just-its-axis-label) | Converted quantities and uncertainties |
@@ -36,26 +37,24 @@ not a scientific classification form, physical reality check or full results rep
 | Figure, caption, methods text | [Publication](references/publication.md) | Source-data figure + honest caption |
 | Apply/verify a published method or citation | [Literature](references/literature.md) | Method note mapped to variables and units |
 
-## Workflow
+## Working guidance
 
-1. **Inspect:** establish actual input identity, units, masks, time/frame convention
-   and calibration before interpretation.
-2. **Reuse:** adapt native Astropy/Astroquery or the established instrument pipeline
-   in the user's project. Explain when new production code is needed instead.
-3. **Verify:** check generated code against native metadata and independent
-   expectations with unit-aware tolerances; a round trip is not an independent
-   oracle. Cover corrupting edge cases and retain regressions for repaired defects.
-   Use the project's checks/lint within execution permissions.
-4. **Deliver:** lead with the useful output, then briefly state actual checks,
-   assumptions, warnings and unresolved limits. Retain code, input/version/query,
-   selections, environment and check outcomes with the artifact. Unrun code is
-   supplied for review, not a numerical result; unrun checks are "not run", not passed.
+Adapt the relevant recipe with native libraries or the established instrument
+pipeline. Before scientific interpretation, inspect input identity, units, masks,
+time/frame convention and calibration. Use the project's checks within permissions;
+compare with independent expectations using unit-aware tolerances, cover corrupting
+edge cases and retain regressions. A round trip is not an independent oracle.
 
-For code navigation, search paths/symbols first. Map unfamiliar large Python modules
-with the [AST recipe](references/stingy-context.md), then read original source ranges
-and connected callers/tests. Skip maps for known ranges, regenerate after edits,
-and keep short path/symbol checkpoints. Maps are navigation, not executable evidence;
-use native inventories and targeted excerpts for non-Python inputs.
+Lead with the requested output and relevant checks, assumptions, warnings and limits. Retain
+code, input/version/query, selections and environment needed to reproduce it. Unrun
+code is supplied for review, not a numerical result; unrun checks are "not run".
+
+Search paths/symbols and read known source ranges directly. A compact tree may help
+locate code in an unfamiliar large module; the
+[AST recipe](references/stingy-context.md#python-reference-snippet-stdlib-ast-skeletonizer)
+is optional. Read original implementations and relevant callers/tests before
+diagnosing or editing. Refresh maps after edits; keep short path/symbol checkpoints.
+Maps are navigation, not behavior evidence. Use native inventories for non-Python.
 
 ## Science rules
 
@@ -80,18 +79,20 @@ use native inventories and targeted excerpts for non-Python inputs.
   bound workers, native pools, retries and wall time. Resource pressure can reduce
   a working set, not scientific samples, catalog completeness or precision.
 
-## Consequential work
+## Project-specific assurance
 
-Before consequential analysis, read [standards](references/standards.md) for intended
-use, failure consequences, classification rationale, safety/mission criticality,
-acceptance evidence and the responsible human decision. Class C/flight/operational
-work needs the project's process; pause the affected work while that is unresolved,
-not separable supported tasks. FEZA grants neither NASA certification nor approval.
+For consequential work, establish intended use, failure consequences and acceptance
+evidence. Consult [standards](references/standards.md) for applicable project assurance
+or when requested, not as a NASA classification gate for unrelated research.
+Required classification, criticality and approval remain human decisions. Class C/
+flight/operational work needs the project's process; pause affected operations while
+required decisions are unresolved, not separable supported tasks. FEZA is not NASA
+certification or approval.
 
 For interpreted scientific results, predeclare a physical acceptance comparison
 with an applicable independent reference, including its uncertainty and dependence,
 or leave that check unresolved. Passing code checks alone does not validate physics.
-Use the [results report](assets/results-report.md) at the depth the result needs;
+The [results report](assets/results-report.md) is an optional reporting aid;
 [evidence expectations](references/standards.md#claims-and-evidence) and applicable
 release policies stay in the standards reference. Withhold unsupported claims,
 not otherwise usable output.

@@ -44,13 +44,21 @@ complexity and investment, retaining the determination. When multiple classes
 apply, assign the highest applicable class, not automatically D. Read the full
 Class C/D/E definitions and exclusions (pp.82–85); the table is not exhaustive.
 
-**FEZA policy:** Before consequential work, retain intended use, consequences, classification
-rationale, criticality, acceptance evidence and the responsible human decision-maker.
-Unknown applicability stops the consequential workflow pending project review.
-Class C/flight/operational-control work is outside FEZA's stand-alone process.
+**Using this guidance:** Establish intended use, failure consequences and relevant
+acceptance evidence for consequential work. Formal classification and approval
+follow the project's governing requirements, not installation of FEZA. Do not add
+a NASA classification gate to independent research with no applicable agreement
+or project requirement; this does not waive scientific integrity or data protection.
+
+Where formal assurance applies, retain classification rationale, criticality,
+acceptance evidence and the responsible human decision-maker. Class C/flight/
+operational-control work is outside FEZA's stand-alone process. Unresolved mission
+criticality or required approval pauses the affected operation pending project
+review, not separable supported work. Binding project/local instructions still apply.
 
 Missing hazard analysis/traceability does **not** establish noncriticality.
-NASA-STD-8739.8B §4.2 (pp.15–16) and NPR 7150.2D §3.7 (pp.26–27) require an
+Within their applicable project scope, NASA-STD-8739.8B §4.2 (pp.15–16) and
+NPR 7150.2D §3.7 (pp.26–27) require an
 actual safety-criticality determination. Evaluate mission criticality too: SWE-134
 addresses both. Assess IV&V applicability separately under NPR §3.6 (p.25).
 Record applicable requirements, verification/nonconformance links and unresolved
@@ -97,8 +105,8 @@ LaRC Class D template (SWE-075/077) is LaRC compliance guidance, not NPR text.
 
 7009B is "highly recommended" for M&S behind critical decisions; elsewhere its use
 "is encouraged" (§1.2). Its note on Analysis says it spans "the gathering and
-reduction of data", so FEZA applies its reporting rules to fitted and derived
-results:
+reduction of data". FEZA uses these reporting practices as an aid for fitted and
+derived results, not a mandatory response format for unrelated projects:
 
 - **M&S 33**: report "a quantitative estimate", "a qualitative description", or "a
   clear statement that no quantitative estimate or qualitative description of

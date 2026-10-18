@@ -55,9 +55,10 @@ The skill turns that goal into working instructions:
   paths and report the actual code, selections, versions, checks and unresolved
   limits needed to understand the output.
 
-The process stays proportional: source navigation returns a code map and relevant
-findings; code-only requests return code with its check status; consequential
-scientific interpretation needs its own acceptance evidence and responsible human.
+The process stays proportional: source navigation returns relevant ranges and
+findings, with a map only when useful; code-only requests return code with its
+check status. Consequential scientific claims need use-specific evidence;
+formal classification and approval follow the project's actual requirements.
 These are instructions for the assistant, not a runtime enforcement system or a
 guarantee that generated code is scientifically valid.
 
@@ -72,11 +73,12 @@ entries. They contribute three complementary perspectives:
 | **NASA-STD-8739.8B — Software Assurance and Software Safety Standard** (§4) | Distinguish software checks from assurance and safety-criticality decisions; identify applicable project responsibilities rather than treating an agent's review as independent approval |
 | **NASA-STD-7009B — Standard for Models and Simulations** (§§4.2–4.3) | Make input provenance, units, assumptions, permissible-use limits, warnings and uncertainty visible when assessing and reporting derived results |
 
-In practice, FEZA asks the assistant to **reuse → verify → inspect → record →
-report**, within the user's authorized scope. A passing software test is not
-evidence of adequate instrument calibration, model adequacy or a physical discovery.
-Consequential work needs an intended-use and criticality decision; read-only source
-navigation does not inherit a scientific approval form.
+FEZA offers task-specific recipes within the assistant's existing project workflow,
+not a replacement process. A passing software test is not evidence of adequate
+instrument calibration, model adequacy or a physical discovery. Consequential work
+needs intended-use and failure-consequence checks; formal assurance applies where
+the project's governing requirements call for it. Unrelated research does not
+inherit a NASA classification gate by installing the skill.
 
 **NASA-informed does not mean NASA-affiliated, endorsed, certified or fully
 compliant.** Actual requirements depend on the project and governing agreements.
@@ -93,16 +95,16 @@ repeated full-file reads. It uses two complementary approaches:
 
 1. **On-demand guidance:** load the skill entrypoint and only the reference
    sections relevant to the request, not every astronomy recipe at once.
-2. **Structure-first source navigation:** search for files and symbols, generate
-   an abstract syntax tree (AST) skeleton for an unfamiliar large Python module,
-   then read the original implementation ranges and connected callers/tests.
-   The map retains signatures, docstrings, imports and selected enclosing structure;
-   implementation statements are omitted where they are not needed for navigation.
+2. **Targeted source navigation:** search for files and symbols, then read relevant
+   original ranges and connected callers/tests. A compact path/symbol/range tree
+   can help locate code in an unfamiliar large module. An optional abstract syntax
+   tree (AST) recipe provides richer structure, retaining signatures, docstrings,
+   imports and selected enclosing blocks while omitting implementation bodies.
 
-The sequence is **search → map → read → check**, not "replace the source with a
-summary." Exact qualified-symbol focus narrows a map to a class or method, original
-line labels point back to the code, and short path/symbol checkpoints avoid
-reloading the same module. Known source ranges can be read directly without a map.
+The sequence is **search → read → check**, with a map only when useful, not "replace
+the source with a summary." Exact qualified-symbol focus narrows an AST map to a
+class or method, original line labels point back to the code, and short path/symbol
+checkpoints avoid reloading the same module. Short source and known ranges need no map.
 
 This reduces what is requested for inspection, not the scientific evidence kept
 on disk. Units, provenance, uncertainties, relevant equations and failure evidence
@@ -124,7 +126,7 @@ savings and agent-quality gains remain unmeasured. See
 | HST/STIS | Inspect first-order extracted spectra, valid-element counts, calibration switches and data-quality flags |
 | Measurements | Carry units, weights and covariance through declared linear measurements |
 | Literature and figures | Map a published method to analysis inputs, record its assumptions and prepare figures/captions from actual data |
-| Python source | Produce an AST map with original line ranges, then read the relevant implementations and callers |
+| Python source | Read relevant implementations and callers; optionally use a compact tree or AST map to locate unknown ranges |
 
 The instrument-specific recipes cover Gaia DR3 and first-order STIS `x1d`/`sx1`
 inspection. They do not implement a general reduction pipeline, distance estimator,
@@ -310,18 +312,19 @@ examples.
 
 ## Python source navigation
 
-The [AST recipe](skills/feza/references/stingy-context.md) is intended for an
-unfamiliar Python module whose full implementation is not needed at once:
+The [navigation guide](skills/feza/references/stingy-context.md#workflow) starts with
+the smallest useful view:
 
 1. Search for relevant files and symbols.
-2. Produce a map of one module, retaining definitions, signatures, docstrings,
-   imports and selected enclosing structure while omitting implementation bodies.
-3. Use its inclusive `[Lines X-Y]` labels to read the original implementation,
-   nearby contracts and relevant callers/tests.
-4. Regenerate the map after source changes; old ranges describe the old source.
+2. Read short source and known ranges directly. For unknown ranges in a large
+   module, add a compact path/symbol/range tree only if it helps locate them.
+3. Read original implementations, nearby contracts and relevant callers/tests.
+4. Refresh any map after source changes; old ranges describe the old source.
 
-After adapting the recipe from the Markdown reference, an assistant can request
-the whole module or one exact qualified definition:
+If a richer map is useful, the optional AST recipe retains definitions, signatures,
+docstrings, imports and selected enclosing structure with inclusive `[Lines X-Y]`
+labels. After adapting it from the Markdown reference, an assistant can request the
+whole module or one exact qualified definition:
 
 ```python
 skeletonize_file(path)
@@ -338,7 +341,7 @@ without importing it, includes decorator start lines in definition spans and
 checks that rendering/annotations preserve the pruned AST. The returned map is
 text for navigation: do not execute it or write it over the original source.
 
-This workflow is an instruction to the assistant, not a client hook or access
+This is navigation guidance, not a mandatory map step, client hook or access
 restriction. It does not apply the Python parser to notebooks, papers, FITS files
 or catalogues. There is no measured context-reduction ratio or agent-performance
 benchmark for the current recipe.
@@ -471,9 +474,10 @@ not part of the normal task workflow.
 
 The current source has undergone static review, metadata/JSON consistency checks,
 relative-link checks and syntax checking of the embedded Python and Bash examples.
-The revised skeleton has not been behaviorally tested; client installation and
-native-data cases 1–8 have not been exercised for this revision. Earlier development
-results do not establish acceptance of later edits.
+The revised skeleton and helper-selection guidance have not been behaviorally
+tested. Client installation has not been exercised; native-data cases 1–8 and
+large-module case 16 still need supplied inputs and independent expectations.
+Earlier development results do not establish acceptance of later edits.
 
 [docs/verification.md](docs/verification.md) records the check scope, historical
 results and remaining gaps. The evaluation definitions are in

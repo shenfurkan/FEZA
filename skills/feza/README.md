@@ -19,8 +19,10 @@ library. Coding agents load FEZA from their client's skill location
 and write native, self-contained Astropy and Astroquery code
 directly inside the user's project. There is no FEZA module to import or wrapper
 to invoke.
-The [results report](assets/results-report.md) supports consequential scientific
-results; a code-navigation request needs only paths, source ranges and findings.
+The optional [results report](assets/results-report.md) supports consequential
+scientific results; a code-navigation request needs only paths, ranges and findings.
+Formal assurance follows the project's actual requirements; installing FEZA does
+not add a NASA classification or approval gate to unrelated research.
 
 ## Use
 
@@ -48,15 +50,14 @@ Evaluation specifications under `evals/` describe expected native Astropy behavi
 they are not execution evidence. Do not infer a successful analysis from skill
 discovery.
 
-For an unfamiliar large Python module, use the standard-library `ast`
-skeletonization recipe in [references/stingy-context.md](references/stingy-context.md)
-and read the inclusive `[Lines X-Y]` ranges needed for the task. Skip the map when
-the relevant range is already known. Use the exact `symbol="Class.method"` focus
-when only one definition needs a map; inspect the enclosing source when its
-context matters. For non-Python research inputs, use native
-inventories/search and targeted excerpts.
-This guidance applies at every assurance scope; it never replaces original code,
-scientific evidence or the requirement to inspect callers/tests before editing.
+Search paths/symbols and read known source ranges directly. For an unfamiliar large
+module, a compact tree of paths, symbols and original ranges may help. The
+[navigation guide](references/stingy-context.md#workflow) also offers an optional
+standard-library AST recipe when a richer map is useful; use its exact
+`symbol="Class.method"` focus if only one definition needs a map. Read original
+implementations and relevant callers/tests before diagnosing or editing; inspect
+enclosing context when needed. For non-Python inputs, use native inventories/search
+and targeted excerpts. Maps never replace original code or scientific evidence.
 
 ## Rights and scientific limits
 

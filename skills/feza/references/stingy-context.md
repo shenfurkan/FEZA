@@ -1,25 +1,82 @@
-# Stingy Context: architecture first, source ranges next
+# Stingy Context: read directly, map when useful
 
-Use this reference to map an unfamiliar large Python module, then inspect the
-original implementation relevant to the question. It needs no scientific stack,
-network, source import or file writes. Return source ranges and findings, not a
-scientific classification form. This is navigation, not behavior evidence.
+Search and targeted source reads are the default. A compact tree can help locate
+unknown code in an unfamiliar large module; the richer AST recipe below is optional.
+Neither replaces the original implementation or the agent's existing navigation
+tools. Return relevant source ranges and findings, not scientific approval forms.
+This is navigation, not behavior evidence.
 
 ## Contents
 
-- [Stdlib AST recipe](#python-reference-snippet-stdlib-ast-skeletonizer)
 - [Workflow](#workflow)
 - [Focused use and output](#focused-use-and-output)
+- [Optional stdlib AST recipe](#python-reference-snippet-stdlib-ast-skeletonizer)
 - [Retained structure](#what-the-skeleton-retains)
 - [Operational limits](#limits)
 
+## Workflow
+
+1. Find plausible files/symbols using the project's existing search/navigation
+   tools. For short source or a known relevant range, read directly; no map is needed.
+2. If locating code in an unfamiliar large module needs a map, start with a compact
+   tree of paths, qualified symbols and verified original ranges. Add signatures
+   when useful. Use an existing symbol view or the optional AST recipe below for
+   richer structure; do not build a repository-wide dump or a new indexing system.
+3. For AST maps, `# [Lines X-Y]` labels are **inclusive, one-based original source
+   lines**, including decorators on definitions. For a read tool accepting one-based
+   offsets, use `offset=X` and `limit=Y-X+1`. Prefer method ranges to whole classes.
+4. Read original implementations, adjacent contract comments and relevant callers,
+   tests and configuration before diagnosing or editing. Grep every caller of a
+   changed function. A tree or skeleton does not establish behavior or correctness.
+5. Refresh maps after source changes: line numbers are snapshot-local. Keep a short
+   checkpoint of paths, symbols, inspected evidence and open questions instead of
+   repeatedly pasting maps or whole files.
+
+For papers, reference Markdown, notebooks, FITS and catalogs, use native
+search/inventories and bounded excerpts, not the Python parser. Keep units,
+provenance, equations, failure evidence, uncertainties and observations needed for
+the scientific question; a navigation tree is not a substitute for that evidence.
+
+## Focused use and output
+
+When a map is useful, return only the relevant tree/excerpt and original ranges,
+then answer from the inspected implementations/callers. A useful handoff is:
+
+```text
+src/analysis.py — Analysis.measure [Lines 8-11]
+Read: lines 8-11 plus the actual caller and nearby contract.
+Finding: describe only what those original ranges establish.
+Open: list any uninspected dependency or unresolved behavior.
+```
+
+The names/ranges above are illustrative, not an executed result. For long tasks,
+retain this path/symbol/read/open checkpoint instead of repasting the module map.
+
+If choosing the AST recipe below, adapt it in an owned scratch scope and call it
+with an actual user-project path, not the skill's installation directory:
+
+```python
+print(skeletonize_file(path))
+```
+
+If only one class or method needs a map, request its exact qualified name:
+
+```python
+print(skeletonize_file(path, symbol="Analysis.measure"))
+```
+
+The focused form omits surrounding imports, sibling definitions and enclosing
+class/module context; read those original ranges when needed. Missing or ambiguous
+names yield an error with candidate ranges, not an arbitrary selection. Print/read
+the returned text; neither call imports the user module. Do not use `exec` or `eval`
+on a map.
+
 ## Python Reference Snippet: stdlib AST skeletonizer
 
-Use Python 3.12+ and the standard library. Adapt the following recipe in an owned
-scratch scope; resolve the input path from the user's project, not the skill's
-installation directory. The recipe reads source and returns text; it never runs
-the source or writes a map over it. Reading/parsing is subject to the host's normal
-file-access and resource limits.
+Load this optional recipe only when a richer map is useful. It needs Python 3.12+
+and the standard library, not a scientific stack or network. The recipe reads
+source and returns text; it never runs the source or writes a map over it.
+Reading/parsing is subject to the host's normal file-access and resource limits.
 
 ```python
 import ast
@@ -168,65 +225,6 @@ def skeletonize_file(path: str | Path, *, symbol: str | None = None) -> str:
     return result
 ```
 
-## Workflow
-
-1. Find plausible files/symbols using glob/grep. If the exact relevant range is
-   already known, read that range directly and skip skeletonization.
-2. Generate one module map, not an indiscriminate repository-wide dump. It labels
-   definitions with qualified names such as `Analysis.measure`. If the module is
-   too large or a class needs closer inspection, use `symbol="Analysis"` or
-   `symbol="Analysis.measure"` instead of reprinting the whole module. Exact-name
-   lookup rejects missing/ambiguous definitions; use the reported ranges to inspect
-   conditional/overload alternatives rather than silently choosing one.
-3. Choose relevant functions/classes/imports from their `# [Lines X-Y]` comments.
-   These are **inclusive, one-based original source lines**. Definition spans
-   include decorators. For a read tool accepting one-based offsets, use `offset=X`
-   and `limit=Y-X+1`. A class range can be large; prefer individual method ranges.
-4. Read original implementation ranges, adjacent contract comments, relevant
-   callers, tests and configuration before diagnosing or editing. Grep every
-   caller of a changed function. Skeletons do not establish behavior or correctness.
-5. After source changes, regenerate: line numbers are snapshot-local, not stable
-   identifiers. Keep a short checkpoint of paths, symbols, evidence and unresolved
-   questions instead of repeatedly pasting whole files into working memory.
-
-For papers, reference Markdown, notebooks, FITS and catalogs, use native
-search/inventories and bounded excerpts. Do not feed them to the Python parser.
-Do not compress away units, provenance, equations, failure evidence, uncertainties
-or observations needed for the scientific question. Context savings must not
-weaken the scientific verification and reporting boundaries in FEZA's main guide.
-
-## Focused use and output
-
-After adapting the recipe above, call it with an actual user-project path:
-
-```python
-print(skeletonize_file(path))
-```
-
-If only the named class or method is needed, request its exact qualified name:
-
-```python
-print(skeletonize_file(path, symbol="Analysis.measure"))
-```
-
-The second form omits surrounding imports, sibling definitions and enclosing
-class/module context; inspect those original ranges when needed. It is a focused
-navigation view, not a standalone extracted implementation. Neither call imports
-the user module. Print/read the returned text; do not pass it to `exec` or `eval`.
-
-Return only the map or relevant excerpt, selected original ranges, inspected
-implementation/callers and the answer to the question. A useful handoff is:
-
-```text
-src/analysis.py — Analysis.measure [Lines 8-11]
-Read: lines 8-11 plus the actual caller and nearby contract.
-Finding: describe only what those original ranges establish.
-Open: list any uninspected dependency or unresolved behavior.
-```
-
-The names/ranges above are illustrative, not an executed result. For long tasks,
-retain this path/symbol/read/open checkpoint instead of repasting the module map.
-
 ## What the skeleton retains
 
 - Module, class and function docstring values, including multiline content.
@@ -277,7 +275,8 @@ failure, retain the error and read targeted original ranges instead of guessing.
 - Long docstrings/defaults or tiny modules may expand after annotations. There is
   no guaranteed compression ratio, and contracts are never truncated to hit one.
 - Standard-library `tokenize` counts Python lexical tokens, **not LLM/BPE tokens**.
-  Actual model-token savings require the same tokenizer on both texts. No
+  Net context savings require the same model tokenizer and account for guidance,
+  recipe/map generation and subsequent source reads in both configurations. No
   repository-wide compression or agent-quality benchmark is claimed.
 - Grammar support follows the interpreter; extreme input size/depth can exhaust
   memory or recursion. Admit one module and its rendered map to the available

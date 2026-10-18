@@ -255,8 +255,9 @@ For a data-free first request, try:
 the function relevant to my question; do not run the analysis.
 ```
 
-Replace the path with an existing Python module in your project. The AST recipe
-uses Python 3.12+ and only its standard library; no Astropy or network is needed.
+Replace the path with an existing Python module in your project. Direct source
+reads need no AST map. If a richer map is useful, the optional AST recipe uses
+Python 3.12+ and only its standard library; no Astropy or network is needed.
 
 Current Claude Code watches skill directories. If the top-level skills directory
 did not exist when the session started, run `/reload-skills`, or restart Claude Code.

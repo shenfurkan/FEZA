@@ -1,16 +1,17 @@
 # FEZA 0.0.1 — verification scope
 
-Preparation date: 2026-10-15; client integration updated 2026-10-16. This is a
-development record, not installed skill content, independent approval, NASA
-certification or scientific validation.
+Preparation date: 2026-10-15; client integration updated 2026-10-16; helper-first
+guidance revised 2026-10-18. This is a development record, not installed skill
+content, independent approval, NASA certification or scientific validation.
 
 ## Intended use and authority
 
 The deliverable is a Markdown assistant skill for astronomy analysis and read-only
 Python navigation, not flight/control software or an executable analysis package.
 No NASA software class is assigned to users merely because they install it. A
-generated consequential analysis needs its own intended-use/classification and
-criticality decision. Source maps do not establish physical truth or code behavior.
+generated consequential analysis needs use-specific evidence; formal classification
+and approval depend on its governing project requirements. Source maps do not
+establish physical truth or code behavior.
 
 For the initial preparation pass below, the operator requested first-version
 preparation, declined behavior tests and had not authorized installation, commits,
@@ -148,9 +149,61 @@ The competing explanation is that agents still over-apply process, or miss detai
 now behind a reference link. The next bounded assessment is an authorized
 clean-context comparison of code-only case 5 and consequential-use case 10.
 
+## Helper-first guidance — 2026-10-18
+
+The operator requested correcting the reviewed process overreach: FEZA should help
+the agent, with navigation maps used only when useful. This authorizes revising
+the portable guidance, not changing local `AGENTS.md`, installing, committing,
+publishing or accepting scientific risk on the operator's behalf.
+
+- The entrypoint supports the agent's existing project workflow. Formal NASA
+  classification/approval is no longer an added FEZA gate for unrelated research;
+  actual project/local requirements, mission-criticality checks and responsible
+  human decisions remain binding. Data protection and scientific evidence rules
+  remain; the results template is an optional aid, not a mandatory response format.
+- Search and direct source reads precede optional compact trees or richer AST maps.
+  Navigation choices now appear before the long recipe. A static source comparison
+  found all four Python fences in the navigation reference byte-identical to the
+  base revision, ignoring their order; no algorithm repair or behavioral pass is
+  implied. The AST recipe was used once for read-only navigation of `tools/validate.py`,
+  without importing/executing that source or executing the returned map.
+- Case 10 distinguishes independent research from applicable mission assurance.
+  Cases 15/16 cover known-range direct reading and optional large-module navigation;
+  both eval mirrors match. These are unexecuted specifications. Case 16 needs an
+  evaluator-supplied module and independent source ranges before assessment.
+
+Static verification used `/usr/bin/python3` 3.14.4, Python 3.12 grammar and
+`/usr/bin/bash` 5.3.9. `PATH=/usr/bin:/bin /usr/bin/python3 -I -B tools/validate.py`
+returned exit 0: 17 Markdown files, 109 relative links, 28 Python fences, 18 Bash
+fences, 2 JSON fences, 1 development script, 4 JSON files, 2 mirror pairs, 16 declared
+cases and 2 plugin metadata records; no errors. `git diff --check` returned exit 0.
+These checks do not execute the fenced recipes or evaluation cases. No scientific
+computation, behavior test, benchmark, resource probe, install or remote job ran.
+
+Source identities were recorded at `2026-10-18T20:39:33Z` against base commit
+`631498456ca5babf309f90ca90879254babd294b`. SHA-256 configuration items:
+
+| Item | SHA-256 |
+|---|---|
+| `git diff --binary -- . ':(exclude)docs/verification.md'` | `50f6425c65a351fd8558f4248674b846263a84b915313f3d158776f720c72659` |
+| `skills/feza/SKILL.md` | `e88c8a79ec554c2acf0a37fcb459d68281634670d35bd9f0a703d855427262c8` |
+| `skills/feza/evals/evals.json` and its root mirror | `e4bdfe5b169c3f08ecfb258805a7f5e176c47191ecbedb1761cfab90e31b01ed` |
+| `tools/validate.py` | `b5eea4f3e9222c53f10a7bcbd48792a02d18f73a0c88b417b2d4ee3b2469e386` |
+| `/usr/bin/python3` | `52e0a13e60a981d8c4b6478be2ba5176f69da07948a056bf49cf6f077e30cb41` |
+| `/usr/bin/bash` | `3efccc187bafa75ff1e37d246270ab3e7aa559f242c7a52bf3ec2a1b5450bdbd` |
+
+No context-saving or agent-quality improvement has been established. The competing
+explanation is that agents still over-apply guidance or skip needed structure.
+The next bounded assessment, only if authorized, is a clean-context comparison of
+cases 10/13/15 and supplied-input case 16 with and without FEZA. Keep rubrics and
+local project instructions out of candidate contexts; retain model/version, inputs,
+actual source-read traces, correctness findings and whole-task token counts,
+including guidance/map overhead. Missing inputs or token counters stay unresolved.
+
 ## Unresolved release risks
 
-- Native-data cases 1–8 still need supplied inputs and independent expectations.
+- Native-data cases 1–8 and large-module case 16 still need supplied inputs and
+  independent expectations.
 - The revised AST map and its source-range edge cases remain behaviorally untested.
 - Claude Code/Codex install and discovery commands are documented, not exercised.
 - NASA-HDBK-7009B's retained copy has approved-cover/draft-header inconsistency;
