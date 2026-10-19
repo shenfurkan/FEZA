@@ -1,7 +1,7 @@
 # Stingy Context: read directly, map when useful
 
-Search and targeted source reads are the default. A compact tree can help locate
-unknown code in an unfamiliar large module; the richer AST recipe below is optional.
+Search and targeted source reads are the default. For a large codebase, a
+names-and-ranges index is the map to grep; a per-module AST skeleton is optional.
 Neither replaces the original implementation or the agent's existing navigation
 tools. Return relevant source ranges and findings, not scientific approval forms.
 This is navigation, not behavior evidence.
@@ -9,6 +9,7 @@ This is navigation, not behavior evidence.
 ## Contents
 
 - [Workflow](#workflow)
+- [Index recipe: names and ranges](#index-recipe-names-and-ranges)
 - [Focused use and output](#focused-use-and-output)
 - [Optional stdlib AST recipe](#python-reference-snippet-stdlib-ast-skeletonizer)
 - [Retained structure](#what-the-skeleton-retains)
@@ -18,17 +19,18 @@ This is navigation, not behavior evidence.
 
 1. Find plausible files/symbols using the project's existing search/navigation
    tools. For short source or a known relevant range, read directly; no map is needed.
-2. If locating code in an unfamiliar large module needs a map, start with a compact
-   tree of paths, qualified symbols and verified original ranges. Add signatures
-   when useful. Use an existing symbol view or the optional AST recipe below for
-   richer structure; do not build a repository-wide dump or a new indexing system.
+2. If locating code needs a map, build the [index](#index-recipe-names-and-ranges)
+   once and **grep it**; never load it whole. Use the per-module AST skeleton
+   only when signatures or nesting of one large module matter. A whole-repository
+   skeleton is not a map: in one measured package it kept 19–38% of the source.
 3. For AST maps, `# [Lines X-Y]` labels are **inclusive, one-based original source
    lines**, including decorators on definitions. For a read tool accepting one-based
    offsets, use `offset=X` and `limit=Y-X+1`. Prefer method ranges to whole classes.
 4. Read original implementations, adjacent contract comments and relevant callers,
    tests and configuration before diagnosing or editing. Grep every caller of a
    changed function. A tree or skeleton does not establish behavior or correctness.
-5. Refresh maps after source changes: line numbers are snapshot-local. Keep a short
+5. Refresh maps after source changes: line numbers are snapshot-local. An index
+   file entry whose `sha256=` prefix differs from the source is stale. Keep a short
    checkpoint of paths, symbols, inspected evidence and open questions instead of
    repeatedly pasting maps or whole files.
 
@@ -36,6 +38,50 @@ For papers, reference Markdown, notebooks, FITS and catalogs, use native
 search/inventories and bounded excerpts, not the Python parser. Keep units,
 provenance, equations, failure evidence, uncertainties and observations needed for
 the scientific question; a navigation tree is not a substitute for that evidence.
+
+## Index recipe: names and ranges
+
+One line per definition: `name start-end`, nested by indentation under a
+`path lines=N sha256=<12 hex>` header. Ranges are inclusive, one-based and start
+at the first decorator. Write the text to an ignored/scratch path in the user's
+project, never into source trees, then grep a symbol or a file header.
+
+```python
+import ast
+import hashlib
+from pathlib import Path
+
+_INDEXED = (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)
+_FLAT = (ast.Expr, ast.Assign, ast.AnnAssign, ast.Import, ast.ImportFrom, ast.Return)
+
+
+def _index_entries(body: list[ast.stmt], depth: int = 1):
+    for node in body:
+        if isinstance(node, _INDEXED):
+            start = min([node.lineno] + [d.lineno for d in node.decorator_list])
+            yield f"{'  ' * depth}{node.name} {start}-{node.end_lineno}"
+            yield from _index_entries(node.body, depth + 1)
+        elif not isinstance(node, _FLAT):
+            # Definitions inside if/try/with/loop/match keep the enclosing depth.
+            for field in ("body", "orelse", "finalbody", "handlers", "cases"):
+                yield from _index_entries(getattr(node, field, None) or [], depth)
+
+
+def index_tree(root: str | Path, pattern: str = "**/*.py") -> str:
+    """Names and inclusive ranges for every definition; never imports the source."""
+    root = Path(root)
+    lines = []
+    for path in sorted(root.glob(pattern)):
+        data = path.read_bytes()
+        name = path.relative_to(root).as_posix()
+        lines.append(f"{name} lines={len(data.splitlines())} "
+                     f"sha256={hashlib.sha256(data).hexdigest()[:12]}")
+        lines.extend(_index_entries(ast.parse(data, filename=name).body))
+    return "\n".join(lines) + "\n"
+```
+
+Call it on the user's source root and write the result to an ignored scratch file.
+A module that fails to parse raises; keep the error and read that module directly.
 
 ## Focused use and output
 
@@ -59,6 +105,7 @@ with an actual user-project path, not the skill's installation directory:
 print(skeletonize_file(path))
 ```
 
+Docstrings are omitted by default; pass `docstrings=True` when contracts matter.
 If only one class or method needs a map, request its exact qualified name:
 
 ```python
@@ -67,7 +114,9 @@ print(skeletonize_file(path, symbol="Analysis.measure"))
 
 The focused form omits surrounding imports, sibling definitions and enclosing
 class/module context; read those original ranges when needed. Missing or ambiguous
-names yield an error with candidate ranges, not an arbitrary selection. Print/read
+names yield an error with candidate ranges, not an arbitrary selection; a bare name
+such as `measure` suggests qualified names ending in it. A map that is not shorter
+than its source raises, because reading the source directly is cheaper. Print/read
 the returned text; neither call imports the user module. Do not use `exec` or `eval`
 on a map.
 
@@ -128,14 +177,18 @@ def _ellipsis(first: ast.stmt, last: ast.stmt) -> ast.Expr:
     return node
 
 
-def _block(body: list[ast.stmt], declarations: bool, docstring: bool = False) -> list[ast.stmt]:
+def _block(body: list[ast.stmt], declarations: bool, docstring: bool = False,
+           keep_docs: bool = True) -> list[ast.stmt]:
     kept, omitted = [], []
     for index, node in enumerate(body):
         is_doc = (
             docstring and index == 0 and isinstance(node, ast.Expr)
             and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str)
         )
-        retained = _statement(node, declarations) if not is_doc else node
+        if is_doc and not keep_docs:
+            omitted.append(node)
+            continue
+        retained = _statement(node, declarations, keep_docs) if not is_doc else node
         if retained is None:
             omitted.append(node)
             continue
@@ -148,9 +201,9 @@ def _block(body: list[ast.stmt], declarations: bool, docstring: bool = False) ->
     return kept
 
 
-def _statement(node: ast.stmt, declarations: bool) -> ast.stmt | None:
+def _statement(node: ast.stmt, declarations: bool, keep_docs: bool = True) -> ast.stmt | None:
     if isinstance(node, _DEFINITIONS):
-        node.body = _block(node.body, isinstance(node, ast.ClassDef), docstring=True)
+        node.body = _block(node.body, isinstance(node, ast.ClassDef), True, keep_docs)
         return node
     if isinstance(node, _IMPORTS + (ast.TypeAlias,)):
         return node
@@ -163,21 +216,22 @@ def _statement(node: ast.stmt, declarations: bool) -> ast.stmt | None:
         if declarations:
             relevant += (ast.Assign,)
         if any(isinstance(child, relevant) for child in ast.walk(node)):
-            _compound(node, declarations)
+            _compound(node, declarations, keep_docs)
             return node
     return None
 
 
-def _compound(node: ast.AST, declarations: bool) -> None:
+def _compound(node: ast.AST, declarations: bool, keep_docs: bool = True) -> None:
     for name, value in ast.iter_fields(node):
         if name in {"body", "orelse", "finalbody"}:
-            setattr(node, name, _block(value, declarations))
+            setattr(node, name, _block(value, declarations, keep_docs=keep_docs))
         elif name in {"handlers", "cases"}:
             for child in value:
-                _compound(child, declarations)
+                _compound(child, declarations, keep_docs)
 
 
-def skeletonize_file(path: str | Path, *, symbol: str | None = None) -> str:
+def skeletonize_file(path: str | Path, *, symbol: str | None = None,
+                     docstrings: bool = False) -> str:
     """Map a module or exact qualified definition; never execute the returned text."""
     with tokenize.open(path) as handle:
         source = handle.read()
@@ -191,9 +245,13 @@ def skeletonize_file(path: str | Path, *, symbol: str | None = None) -> str:
         if len(matches) != 1:
             spans = [(original_decorators.get(node.lineno, node.lineno), node.end_lineno)
                      for node in matches]
-            raise ValueError(f"Expected one definition for {symbol!r}; found ranges {spans}")
+            similar = [name for name, _ in definitions if name.endswith("." + symbol)]
+            hint = f"; qualified names ending in it: {similar}" if similar else ""
+            raise ValueError(f"Expected one definition for {symbol!r}; found ranges {spans}{hint}")
         tree.body = matches
-    tree.body = _block(tree.body, declarations=True, docstring=True)
+    elif not docstrings and ast.get_docstring(tree, clean=False) is not None:
+        tree.body = tree.body[1:]  # an `...` there would precede `from __future__` imports
+    tree.body = _block(tree.body, declarations=True, docstring=True, keep_docs=docstrings)
     tree.type_ignores = []
     text = ast.unparse(tree)
     rendered = ast.parse(text, type_comments=True)
@@ -222,12 +280,14 @@ def skeletonize_file(path: str | Path, *, symbol: str | None = None) -> str:
     if ast.dump(mapped, include_attributes=False) != ast.dump(tree, include_attributes=False):
         raise ValueError("Rendered map changed the pruned AST; read the source directly")
     compile(result, filename, "exec", dont_inherit=True)
+    if len(result) >= len(source):
+        raise ValueError("Map is not shorter than the source; read the source directly")
     return result
 ```
 
 ## What the skeleton retains
 
-- Module, class and function docstring values, including multiline content.
+- Module, class and function docstring values, only with `docstrings=True`.
 - Imports/aliases within the selected module/definition, including local and
   conditional imports. A focused view does not supply its enclosing namespace.
 - Class bases, metaclass keywords, decorators and Python 3.12 type parameters.
@@ -272,12 +332,14 @@ failure, retain the error and read targeted original ranges instead of guessing.
   represented faithfully. Original source remains authoritative.
 - This is not a redactor: docstrings, signatures and defaults may contain sensitive
   text. Inspect only authorized files and do not export research data with the map.
-- Long docstrings/defaults or tiny modules may expand after annotations. There is
-  no guaranteed compression ratio, and contracts are never truncated to hit one.
+- Long defaults or tiny modules may expand after annotations; the recipe then
+  raises instead of returning a longer map. There is no guaranteed ratio.
 - Standard-library `tokenize` counts Python lexical tokens, **not LLM/BPE tokens**.
   Net context savings require the same model tokenizer and account for guidance,
-  recipe/map generation and subsequent source reads in both configurations. No
-  repository-wide compression or agent-quality benchmark is claimed.
+  recipe/map generation and subsequent source reads in both configurations. One
+  measurement, characters only (289-module scientific package, 6.2 M characters):
+  skeletons kept ~38% with docstrings and ~19% without, the index ~2%. No
+  agent-quality benchmark is claimed.
 - Grammar support follows the interpreter; extreme input size/depth can exhaust
   memory or recursion. Admit one module and its rendered map to the available
   memory; use an external timeout where the host requires it. There is no cache,

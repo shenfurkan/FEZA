@@ -110,8 +110,9 @@ This reduces what is requested for inspection, not the scientific evidence kept
 on disk. Units, provenance, uncertainties, relevant equations and failure evidence
 must not be discarded to fit a context budget. The approach takes design inspiration
 from *Stingy Context*, but FEZA's stdlib AST recipe is separately written: it does
-not implement TREEFRAG or claim the paper's compression ratios. Actual model-token
-savings and agent-quality gains remain unmeasured. See
+not implement TREEFRAG or claim the paper's compression ratios. Measured by
+characters on one package, whole skeletons keep 19–38% of the source and the index
+~2%; model-token savings and agent-quality gains remain unmeasured. See
 [Python source navigation](#python-source-navigation) for the recipe and limits.
 
 ## Scope
@@ -317,13 +318,16 @@ the smallest useful view:
 
 1. Search for relevant files and symbols.
 2. Read short source and known ranges directly. For unknown ranges in a large
-   module, add a compact path/symbol/range tree only if it helps locate them.
+   codebase, build the names-and-ranges index once and grep it; never load it whole.
 3. Read original implementations, nearby contracts and relevant callers/tests.
 4. Refresh any map after source changes; old ranges describe the old source.
 
+`index_tree(root)` returns one `name start-end` line per definition under a
+`path lines=N sha256=<prefix>` header; a changed prefix marks a stale entry.
+
 If a richer map is useful, the optional AST recipe retains definitions, signatures,
-docstrings, imports and selected enclosing structure with inclusive `[Lines X-Y]`
-labels. After adapting it from the Markdown reference, an assistant can request the
+imports and selected enclosing structure (docstrings with `docstrings=True`) with
+inclusive `[Lines X-Y]` labels. After adapting it from the Markdown reference, an assistant can request the
 whole module or one exact qualified definition:
 
 ```python
@@ -334,7 +338,8 @@ skeletonize_file(path, symbol="Analysis.measure")
 `skeletonize_file` is defined in the recipe, not provided by an installed FEZA
 module. The focused form omits enclosing namespace and branch context; those
 original ranges still need inspection when relevant. Missing or ambiguous symbol
-names produce an error rather than selecting an arbitrary definition.
+names produce an error rather than selecting an arbitrary definition; a bare name
+lists qualified names ending in it. A map not shorter than its source raises.
 
 The recipe uses Python's `ast`, `tokenize`, `io` and `pathlib`. It reads source
 without importing it, includes decorator start lines in definition spans and
@@ -343,8 +348,9 @@ text for navigation: do not execute it or write it over the original source.
 
 This is navigation guidance, not a mandatory map step, client hook or access
 restriction. It does not apply the Python parser to notebooks, papers, FITS files
-or catalogues. There is no measured context-reduction ratio or agent-performance
-benchmark for the current recipe.
+or catalogues. One character-count measurement on a 289-module scientific Python
+package (6.2 M characters): skeletons kept ~38% with docstrings and ~19% without;
+the index ~2%. Model-token savings and agent performance remain unmeasured.
 
 ## Sources used during development
 

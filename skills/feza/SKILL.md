@@ -1,6 +1,6 @@
 ---
 name: feza
-description: Use for astronomical research using native Astropy, including FITS, catalogs, units, times, spectra, uncertainties, literature, figures and lean Python-code navigation.
+description: Use for astronomical research using native Astropy, including FITS, light curves, catalogs, units, times, spectra, uncertainties, literature, figures and lean Python-code navigation.
 license: MIT
 metadata:
   version: "0.0.1"
@@ -24,7 +24,7 @@ not a scientific classification form, physical reality check or full results rep
 
 | Request | Read | Return |
 |---|---|---|
-| Locate Python analysis code without context bloat | [Navigation choices](references/stingy-context.md#workflow) | Relevant paths and original ranges; a compact tree or AST map only if useful |
+| Locate Python analysis code without context bloat | [Navigation choices](references/stingy-context.md#workflow), [index](references/stingy-context.md#index-recipe-names-and-ranges) | Relevant paths and original ranges from a grepped names-and-ranges index |
 | Open/inspect a FITS; choose an HDU | [Astropy §1](references/astropy-workflows.md#1-inventory-a-native-fits-before-choosing-data) | HDU inventory, checksum findings, explicit selection |
 | Preserve or export a catalogue/table | [Astropy §2](references/astropy-workflows.md#2-preserve-cataloguetable-semantics-when-exporting) | Derivative table + readback comparison |
 | Convert flux/units of a spectrum | [Astropy §3](references/astropy-workflows.md#3-convert-the-physical-quantity-not-just-its-axis-label) | Converted quantities and uncertainties |
@@ -49,8 +49,9 @@ Lead with the requested output and relevant checks, assumptions, warnings and li
 code, input/version/query, selections and environment needed to reproduce it. Unrun
 code is supplied for review, not a numerical result; unrun checks are "not run".
 
-Search paths/symbols and read known source ranges directly. A compact tree may help
-locate code in an unfamiliar large module; the
+Search paths/symbols and read known source ranges directly. In a large codebase,
+grep a [names-and-ranges index](references/stingy-context.md#index-recipe-names-and-ranges)
+instead of loading maps; the per-module
 [AST recipe](references/stingy-context.md#python-reference-snippet-stdlib-ast-skeletonizer)
 is optional. Read original implementations and relevant callers/tests before
 diagnosing or editing. Refresh maps after edits; keep short path/symbol checkpoints.

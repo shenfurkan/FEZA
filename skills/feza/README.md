@@ -50,8 +50,8 @@ Evaluation specifications under `evals/` describe expected native Astropy behavi
 they are not execution evidence. Do not infer a successful analysis from skill
 discovery.
 
-Search paths/symbols and read known source ranges directly. For an unfamiliar large
-module, a compact tree of paths, symbols and original ranges may help. The
+Search paths/symbols and read known source ranges directly. For a large codebase,
+grep a names-and-ranges index (`index_tree`) rather than loading maps. The
 [navigation guide](references/stingy-context.md#workflow) also offers an optional
 standard-library AST recipe when a richer map is useful; use its exact
 `symbol="Class.method"` focus if only one definition needs a map. Read original
