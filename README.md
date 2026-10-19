@@ -2,7 +2,7 @@
 
 **Framework for Extraterrestrial & Zenith-grade Astrophysics**
 
-Version 0.0.1 · [MIT license](LICENSE.txt)
+Version 0.0.2 · [MIT license](LICENSE.txt)
 
 FEZA is an astronomy Agent Skill for **OpenCode, Claude Code and Codex**. It brings
 together **native Astropy/Astroquery workflows**, **NASA-informed software
@@ -438,7 +438,7 @@ This is a rule for authoring FEZA, not a download/storage requirement for its us
 ## Repository structure
 
 ```text
-.github/workflows/validate.yml # manually triggered static checks
+.github/workflows/validate.yml # static checks on push, PR and manual runs
 tools/validate.py              # local, dependency-free development checks
 
 .claude-plugin/
@@ -457,15 +457,14 @@ skills/feza/
 │   ├── standards.md
 │   ├── stingy-context.md
 │   └── stis.md
-├── assets/results-report.md # scientific-result reporting template
-└── evals/                   # development cases, prompts and controls
+└── assets/results-report.md # scientific-result reporting template
 
 docs/
 ├── sources.md               # development bibliography and local-copy index
 ├── verification.md          # recorded checks and unresolved coverage
 └── skills-suite-improvement-plan.md
 
-evals/                      # compatibility mirrors of the two eval JSON files
+evals/                       # evaluator-side cases, controls and `claude plugin eval` suite
 INSTALLATION.md              # platform-specific installation details
 VERSION
 LICENSE.txt
@@ -473,22 +472,22 @@ LICENSE.txt
 
 The client initially sees skill metadata, loads `SKILL.md` when FEZA is selected
 and reads the relevant recipe files as needed. The repository's development
-bibliography is outside the installed skill. `evals/` is development material,
-not part of the normal task workflow.
+bibliography and the root `evals/` grading material are outside the installed skill
+directory, so a candidate loading FEZA does not receive expected answers.
 
 ## Verification and limitations
 
 The current source has undergone static review, metadata/JSON consistency checks,
 relative-link checks and syntax checking of the embedded Python and Bash examples.
 The revised skeleton and helper-selection guidance have not been behaviorally
-tested. Client installation has not been exercised; native-data cases 1–8 and
+tested. Plugin installation and skill discovery in Claude Code were exercised once (0.0.1); native-data cases 1–8 and
 large-module case 16 still need supplied inputs and independent expectations.
 Earlier development results do not establish acceptance of later edits.
 
 [docs/verification.md](docs/verification.md) records the check scope, historical
 results and remaining gaps. The evaluation definitions are in
-[skills/feza/evals/evals.json](skills/feza/evals/evals.json), with synthetic controls
-in [regression-controls.md](skills/feza/evals/regression-controls.md). Synthetic
+[evals/evals.json](evals/evals.json), with synthetic controls
+in [regression-controls.md](evals/regression-controls.md). Synthetic
 controls are not observations or independent scientific validation.
 
 Run the repository's static checks from a clone with Python 3.12+ and Bash:
@@ -497,16 +496,16 @@ Run the repository's static checks from a clone with Python 3.12+ and Bash:
 python3 tools/validate.py
 ```
 
-This checks inline relative Markdown links/anchors, JSON and mirror consistency,
+This checks inline relative Markdown links/anchors, JSON, eval-case layout,
 basic name/version metadata and code-example syntax, including indented fences.
 It does not import or execute recipes, query services, install packages or require
 the developer's ignored literature collection. It is not a replacement for the
 official client/frontmatter validators or scientific tests. PowerShell examples
 and external URL availability are outside this check.
 
-The **Static validation** GitHub Actions workflow runs the same command when a
-maintainer selects **Run workflow**. It is manual-only, read-only and bounded to
-three minutes; no remote workflow run is claimed here.
+The **Static validation** GitHub Actions workflow runs the same command on pushes
+to `main`, on pull requests and when a maintainer selects **Run workflow**. It is
+read-only and bounded to three minutes; no remote workflow run is claimed here.
 
 Generated scientific code still needs checks against the actual inputs, method
 domain and intended use. Preserve units, masks, source identifiers and native
@@ -519,13 +518,13 @@ Edit the canonical skill under `skills/feza/`. Keep development bibliographies a
 source-download procedures in repository documentation, not in the installed
 instructions. For a correction, describe the affected input/output and retain a
 case that distinguishes the defect from the intended behavior. State checks that
-were not run. Keep root evaluation JSON mirrors identical to the skill-local files.
+were not run. Keep evaluator material in the root `evals/`, never under `skills/feza/`.
 For behavioral comparisons, supply only the relevant input from
-[scenarios.md](skills/feza/evals/scenarios.md). Keep `evals.json` and the known-answer
+[scenarios.md](evals/scenarios.md). Keep `evals.json` and the known-answer
 regression controls out of candidate workspaces; they are evaluator-side material.
 Keep `VERSION`, `metadata.version` in `SKILL.md` and the plugin manifest version
 aligned. Change the version for a new published plugin revision so clients can
-refresh the versioned copy; first-release preparation remains at `0.0.1`.
+refresh the versioned copy; the first installed revision was `0.0.1`.
 
 For a bug report, include the client/library versions, a minimal redacted input,
 the expected and actual behavior, and the relevant warnings or error. Do not

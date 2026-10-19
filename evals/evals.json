@@ -1,7 +1,7 @@
 {
   "skill_name": "feza",
   "schema": "skill-creator references/schemas.md evals.json",
-  "notes": "Development-only evaluation specifications, not runtime skill instructions or executed acceptance results. Root evals JSON files are byte-identical compatibility mirrors. files contains real paths relative to the skill root; input_requirements describes evaluator-supplied inputs. Cases 1-8 and 16 require external inputs and independent expectations. Cases 9/14 use known-answer synthetic development controls. Cases 10-13 and 15 use scenarios.md, whose inputs do not contain grading answers. Supply only the relevant scenario to each candidate; exclude eval specifications and regression-controls.md from the candidate workspace. Record project-instruction leakage in both comparison configurations. Editing these specifications establishes no behavioral pass.",
+  "notes": "Development-only evaluation specifications, not runtime skill instructions or executed acceptance results. These files live in the repository evals/ directory, outside the installed skill, so candidates loading the skill do not receive grading answers. files contains real paths relative to the repository root; input_requirements describes evaluator-supplied inputs. Cases 1-8 and 16 require external inputs and independent expectations. Cases 9/14 use known-answer synthetic development controls. Cases 10-13 and 15 use scenarios.md, whose inputs do not contain grading answers. Supply only the relevant scenario to each candidate; exclude eval specifications and regression-controls.md from the candidate workspace. Record project-instruction leakage in both comparison configurations. Editing these specifications establishes no behavioral pass.",
   "evals": [
     {
       "id": 1,

@@ -11,6 +11,7 @@ This is navigation, not behavior evidence.
 - [Workflow](#workflow)
 - [Index recipe: names and ranges](#index-recipe-names-and-ranges)
 - [Focused use and output](#focused-use-and-output)
+- [Keep the index across sessions](#keep-the-index-across-sessions)
 - [Optional stdlib AST recipe](#python-reference-snippet-stdlib-ast-skeletonizer)
 - [Retained structure](#what-the-skeleton-retains)
 - [Operational limits](#limits)
@@ -18,7 +19,10 @@ This is navigation, not behavior evidence.
 ## Workflow
 
 1. Find plausible files/symbols using the project's existing search/navigation
-   tools. For short source or a known relevant range, read directly; no map is needed.
+   tools: grep, and LSP symbol/reference lookups where the client has them. For
+   short source or a known relevant range, read directly; no map is needed. If the
+   client already injects a code map (for example from a session-start hook), use
+   it rather than building a second one.
 2. If locating code needs a map, build the [index](#index-recipe-names-and-ranges)
    once and **grep it**; never load it whole. Use the per-module AST skeleton
    only when signatures or nesting of one large module matter. A whole-repository
@@ -27,8 +31,9 @@ This is navigation, not behavior evidence.
    lines**, including decorators on definitions. For a read tool accepting one-based
    offsets, use `offset=X` and `limit=Y-X+1`. Prefer method ranges to whole classes.
 4. Read original implementations, adjacent contract comments and relevant callers,
-   tests and configuration before diagnosing or editing. Grep every caller of a
-   changed function. A tree or skeleton does not establish behavior or correctness.
+   tests and configuration before diagnosing or editing. Find every caller of a
+   changed function with grep or an LSP reference lookup; the index lists
+   definitions, not callers. A tree or skeleton does not establish behavior or correctness.
 5. Refresh maps after source changes: line numbers are snapshot-local. An index
    file entry whose `sha256=` prefix differs from the source is stale. Keep a short
    checkpoint of paths, symbols, inspected evidence and open questions instead of
@@ -53,6 +58,7 @@ from pathlib import Path
 
 _INDEXED = (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)
 _FLAT = (ast.Expr, ast.Assign, ast.AnnAssign, ast.Import, ast.ImportFrom, ast.Return)
+_VENDORED = {"__pycache__", "site-packages", "node_modules", "venv"}
 
 
 def _index_entries(body: list[ast.stmt], depth: int = 1):
@@ -72,16 +78,27 @@ def index_tree(root: str | Path, pattern: str = "**/*.py") -> str:
     root = Path(root)
     lines = []
     for path in sorted(root.glob(pattern)):
+        relative = path.relative_to(root)
+        if any(part.startswith(".") or part in _VENDORED for part in relative.parts[:-1]):
+            continue  # Environments, caches and VCS data are not project source.
         data = path.read_bytes()
-        name = path.relative_to(root).as_posix()
+        name = relative.as_posix()
         lines.append(f"{name} lines={len(data.splitlines())} "
                      f"sha256={hashlib.sha256(data).hexdigest()[:12]}")
-        lines.extend(_index_entries(ast.parse(data, filename=name).body))
+        try:
+            tree = ast.parse(data, filename=name)
+        except (SyntaxError, ValueError, RecursionError) as exc:
+            lines.append(f"  PARSE-ERROR {type(exc).__name__}: {exc}")
+            continue
+        lines.extend(_index_entries(tree.body))
     return "\n".join(lines) + "\n"
 ```
 
 Call it on the user's source root and write the result to an ignored scratch file.
-A module that fails to parse raises; keep the error and read that module directly.
+Hidden directories (such as `.venv` or `.git`) and `__pycache__`, `site-packages`,
+`node_modules` and `venv` directories are skipped; pass a narrower `pattern` or root
+when other vendored trees remain. A module that fails to parse keeps its header and
+a `PARSE-ERROR` line instead of entries; grep for it and read that module directly.
 
 ## Focused use and output
 
@@ -97,6 +114,40 @@ Open: list any uninspected dependency or unresolved behavior.
 
 The names/ranges above are illustrative, not an executed result. For long tasks,
 retain this path/symbol/read/open checkpoint instead of repasting the module map.
+
+## Keep the index across sessions
+
+A skill loads only when a request matches it, so a navigation question that never
+names astronomy may not load FEZA at all. The project's instruction file loads in
+every session. When the user expects to navigate the same large Python codebase
+across sessions, or asks to make the index persistent, offer a short pointer for
+that file. Skip the offer when the client already injects an equivalent code map.
+
+1. Save the adapted `index_tree` recipe as a small script in an ignored path of the
+   user's project, so the pointer can name a regeneration command. Write the index
+   itself to an ignored path too.
+2. Show the snippet and the target file before writing anything: `AGENTS.md` for
+   clients that read it (such as Codex and OpenCode), `CLAUDE.md` or a file it
+   imports for Claude Code. Edit the instruction file only after explicit approval.
+3. Put only the pointer in the instruction file. That file loads on every turn, and
+   an index of a large package can run to hundreds of kilobytes.
+
+Replace the bracketed paths with the actual ignored locations:
+
+```markdown
+## Code navigation
+- Python names-and-ranges index: `[index path]`. Grep it for a symbol or file
+  header; never read it whole. Regenerate it with `python [script path]`.
+- Before using a range, compare the file header's `sha256=` prefix with the first
+  12 hex characters of the file's current SHA-256; regenerate the index when they
+  differ or after edits.
+- Ranges only locate code. Read the original lines, and find callers with grep or
+  LSP references, before explaining or editing.
+```
+
+The pointer changes where an agent looks first; it is not evidence that context
+use or answer quality improved. Measuring that needs the same tasks with and
+without the pointer, counting whole-task tokens and checking the ranges found.
 
 If choosing the AST recipe below, adapt it in an owned scratch scope and call it
 with an actual user-project path, not the skill's installation directory:

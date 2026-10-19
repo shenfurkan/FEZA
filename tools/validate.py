@@ -91,7 +91,7 @@ def anchors(text):
 
 
 files = [root / "README.md", root / "INSTALLATION.md"]
-for directory in (root / "docs", skill):
+for directory in (root / "docs", root / "evals", skill):
     if input_path(directory) is not None:
         files += sorted(directory.rglob("*.md"))
 texts = {}
@@ -175,27 +175,27 @@ for path in (root / "LICENSE.txt", skill / "LICENSE"):
     if resolved is not None and not resolved.is_file():
         errors.append(f"{path.relative_to(root)}: missing license")
 
+# Grading material stays outside the installed skill so candidates cannot read answers.
+if (skill / "evals").exists():
+    errors.append("skills/feza/evals: evaluator material must live in the repository evals/")
 for filename in ("evals.json", "trigger_evals.json"):
-    canonical = skill / "evals" / filename
-    parsed = read_json(canonical)
+    parsed = read_json(root / "evals" / filename)
     if parsed is None:
         continue
-    before = read_input(canonical, binary=True)
-    after = read_input(root / "evals" / filename, binary=True)
-    if before is not None and after is not None:
-        counts["mirrors_compared"] += 1
-        if before != after:
-            errors.append(f"evals/{filename}: mirror differs")
     if filename == "evals.json":
         cases = parsed["evals"]
         if [case["id"] for case in cases] != list(range(1, len(cases) + 1)):
             errors.append("evals: nonsequential case IDs")
         for case in cases:
             for item in case["files"]:
-                target = input_path(skill / item)
+                target = input_path(root / item)
                 if target is not None and not target.is_file():
-                    errors.append(f'eval {case["id"]}: missing or external fixture {item}')
+                    errors.append(f'eval {case["id"]}: missing fixture {item}')
         counts["declared_cases"] = len(cases)
+for case_dir in sorted(path.parent for path in (root / "evals").glob("*/prompt.md")):
+    if not any((case_dir / "graders").glob("*.md")):
+        errors.append(f"{case_dir.relative_to(root)}: plugin-eval case without graders")
+    counts["plugin_eval_cases"] += 1
 
 marketplace = read_json(root / ".claude-plugin/marketplace.json")
 plugin = read_json(root / ".claude-plugin/plugin.json")

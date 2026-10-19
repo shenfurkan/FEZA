@@ -136,6 +136,9 @@ with fits.open(path, mode="readonly", memmap=False) as hdul:
     raw_units = {name: sci.columns[name].unit for name in names}
     if any(not raw_units[name] for name in ("WAVELENGTH", "FLUX", "ERROR")):
         raise ValueError("A required spectral unit is absent")
+    # Before unit checks: without flux calibration ERROR stays in counts/s.
+    if primary.get("FLUXCORR") != "COMPLETE":
+        raise ValueError("Physical-flux plotting is unsupported by this calibration state")
     wave_unit = (u.AA if raw_units["WAVELENGTH"] == "Angstroms"
                  else u.Unit(raw_units["WAVELENGTH"], format="fits"))
     flux_unit = u.Unit(raw_units["FLUX"], format="fits")
@@ -145,8 +148,6 @@ with fits.open(path, mode="readonly", memmap=False) as hdul:
         raise u.UnitConversionError("WAVELENGTH is not a length")
     if not all(unit.is_equivalent(flam_unit) for unit in (flux_unit, error_unit)):
         raise u.UnitConversionError("FLUX/ERROR are not F_lambda units")
-    if primary.get("FLUXCORR") != "COMPLETE":
-        raise ValueError("Physical-flux plotting is unsupported by this calibration state")
     spectrum = Table({name: arrays[name][:nelem].copy() for name in names})
     for name, unit in (("WAVELENGTH", wave_unit), ("FLUX", flux_unit), ("ERROR", error_unit)):
         spectrum[name].unit = unit

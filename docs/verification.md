@@ -214,3 +214,36 @@ including guidance/map overhead. Missing inputs or token counters stay unresolve
 For broader acceptance, the next bounded check is an authorized stdlib-only
 skeleton regression pass, followed separately by one clean-workspace client smoke
 check. Neither is required to deliver source under the operator's static-only scope.
+
+## 0.0.2 revision, 2026-10-20
+
+- Claude Code 2.1.303 installed `feza@feza` 0.0.1 from the GitHub marketplace and
+  listed `feza:feza` among available skills. This exercises plugin install and
+  discovery once; it is not a behavioral result.
+- `SKILL.md`: trigger-oriented description with explicit non-astronomy exclusions,
+  scope moved before routing, a light-curve route that leaves mission quality-flag
+  policy unresolved, and plainer wording of the same rules.
+- `references/stis.md`: the `FLUXCORR` gate now precedes the F_lambda unit check, so
+  an uncalibrated product reports its calibration state instead of a unit error.
+- `references/stingy-context.md`: `index_tree` skips hidden, cache and virtualenv
+  directories and records `PARSE-ERROR` for one unparsable module instead of
+  aborting the whole index.
+- Evaluator material (`evals.json`, `trigger_evals.json`, `scenarios.md`,
+  `regression-controls.md`) moved from `skills/feza/evals/` to the root `evals/`;
+  the byte-identical mirror is gone. Seven `claude plugin eval` cases were added
+  under `evals/<case>/`. They have not been run, piloted or calibrated.
+- `references/stingy-context.md`: new "Keep the index across sessions" section. The
+  agent offers a three-line instruction-file pointer (index path, regeneration
+  command, sha256 staleness rule) and writes it only after approval, never the
+  index itself; it skips the offer when the client already injects a code map.
+  Navigation now names LSP symbol/reference lookups for callers. Eval case
+  `persistent-index-offer` covers the offer; whether the pointer saves tokens is
+  unmeasured.
+- `SKILL.md`: the assurance section keeps its trigger rules and links to the
+  standards reference, which already holds the pause/human-decision wording.
+- `.github/workflows/validate.yml`: also runs on pushes to `main` and pull requests.
+
+Static checks: `PATH=/usr/bin:/bin /usr/bin/python3 -I -B tools/validate.py` exit 0
+(46 Markdown files, 117 relative links, 30 Python fences, 16 declared cases, 8
+plugin-eval cases, no errors); `claude plugin validate` passed for both manifests;
+`git diff --check` exit 0. No recipe, eval case, test or numerical run executed.

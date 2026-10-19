@@ -239,9 +239,9 @@ For a plugin installation, use `/plugin` to check that `feza@feza` is enabled an
 
 The resulting directory must contain `feza/SKILL.md`, `references/`, `assets/` and
 `LICENSE` together. The frontmatter's `name` is `feza`, matching its directory.
-The root `README.md`, `docs/`, `literature/` and local `AGENTS.md` are not part of
-the install. `evals/` contains development specifications and can be omitted from
-a manually prepared distribution; ordinary use does not load it.
+The root `README.md`, `docs/`, `evals/`, `literature/` and local `AGENTS.md` are not
+part of a direct skill copy. The plugin cache holds the whole repository, including
+`evals/`, but the skill never links to it and ordinary use does not load it.
 
 1. In Claude Code, run `/skills` and check for FEZA.
 2. Invoke `/feza Inspect this FITS product and preserve its units and quality masks`.

@@ -1,6 +1,6 @@
 # FEZA skill
 
-Version 0.0.1 · MIT
+Version 0.0.2 · MIT
 
 Start with [SKILL.md](SKILL.md), then read the reference section for the task.
 
@@ -46,8 +46,9 @@ numerical work only on the approved host and within the agreed scope.
 
 Verify the generated notebook/script against native metadata and independent
 identities/reference values; keep actual masks, uncertainties and input identity.
-Evaluation specifications under `evals/` describe expected native Astropy behavior;
-they are not execution evidence. Do not infer a successful analysis from skill
+Evaluation specifications live in the repository's root `evals/` directory, outside
+this installed skill, so candidates do not see grading answers. They describe
+expected native Astropy behavior and are not execution evidence. Do not infer a successful analysis from skill
 discovery.
 
 Search paths/symbols and read known source ranges directly. For a large codebase,
