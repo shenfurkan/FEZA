@@ -1,6 +1,6 @@
 ---
 name: scientific-peer-review
-description: "Use to review a scientific analysis, numerical method or manuscript for physical rigor, competing explanations, assumptions, uncertainty, selection effects and claim-evidence alignment. Inspect the scientific argument and its actual computational support, distinguish demonstrated defects from untested concerns, and propose discriminating checks. Not merely code-style review, a journal decision or permission to edit the analysis."
+description: "Reviews a scientific analysis, method or manuscript for rigor: competing explanations, assumptions, data and calibration, numerical implementation, uncertainty, selection effects and whether the conclusions follow from the evidence. Use when asked to review, critique, referee or sanity-check a paper, preprint, thesis chapter, analysis notebook or result in any discipline, or to draft referee comments. Not code-style review, a journal decision or permission to edit the analysis."
 ---
 
 # Scientific Peer Review

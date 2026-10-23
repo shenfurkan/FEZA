@@ -12,7 +12,7 @@ See the [collection guide](docs/general-scientific-skills.md) for all twenty-two
 identifiers. Existing examples below select the astronomy identifier `feza`. To install
 a general skill manually, copy its complete `skills/<name>/` directory to the same
 client discovery location using `<name>` instead of `feza`; preserve `references/`
-and `LICENSE`. Each directory is self-contained and requires no sibling skill.
+and any `assets/`. Each directory is self-contained and requires no sibling skill.
 
 For an explicitly selected third-party installer invocation, replace the existing
 `--skill feza` selector with the chosen identifier and retain the intended client,
@@ -258,8 +258,8 @@ The npx commands above target **Claude Code**; use `--agent codex` for Codex.
 For a plugin installation, use `/plugin` to check that `feza@feza` is enabled and
 `/skills` to find `/feza:feza`. The checks below describe a direct skill copy.
 
-The resulting directory must contain `feza/SKILL.md`, `references/`, `assets/` and
-`LICENSE` together. The frontmatter's `name` is `feza`, matching its directory.
+The resulting directory must contain `feza/SKILL.md`, `references/` and `assets/`
+together. The frontmatter's `name` is `feza`, matching its directory.
 The root `README.md`, `docs/`, `evals/`, `literature/` and local `AGENTS.md` are not
 part of a direct skill copy. The plugin cache holds the whole repository, including
 `evals/`, but the skill never links to it and ordinary use does not load it.

@@ -294,7 +294,7 @@ Copy the complete `skills/feza/` directory to one of these locations, retaining
 | OpenCode V2 | `~/.config/opencode/skills/feza/` | `<research-project>/.opencode/skills/feza/` |
 | Codex | `~/.agents/skills/feza/` | `<research-project>/.agents/skills/feza/` |
 
-Copy `SKILL.md`, `references/`, `assets/` and `LICENSE` together, not just the
+Copy `SKILL.md`, `references/` and `assets/` together, not just the
 entrypoint. Do not copy the entire repository into the client's skill directory.
 The manual route does not require Node.js or npm. Symlinks are another option if
 you want the installed skill to follow a reviewed local clone.
@@ -494,7 +494,6 @@ skills/
 skills/feza/
 ├── SKILL.md                 # entrypoint and task routing
 ├── README.md                # installed-directory usage
-├── LICENSE
 ├── references/              # operational instructions and Python recipes
 │   ├── astropy-workflows.md
 │   ├── gaia.md

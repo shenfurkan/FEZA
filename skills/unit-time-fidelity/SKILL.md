@@ -1,6 +1,6 @@
 ---
 name: unit-time-fidelity
-description: "Check units, time representations, coordinate/sign conventions and normalization when values cross scientific software boundaries or a result differs by a suspicious factor/offset. Resolve the representation before changing the affected physical calculation."
+description: "Checks that units, timestamps, coordinate and sign conventions and normalization agree when scientific values move between files, instruments, libraries or collaborators. Use when converting or merging measurements (mg/dL to mmol/L, counts to rates, local time to UTC, one reference frame to another), when a result is off by a constant factor, offset or sign, or when a column's unit, time scale or time zone is unclear, in any discipline. Not for general statistics or plotting."
 ---
 
 # Units, Time and Convention Fidelity

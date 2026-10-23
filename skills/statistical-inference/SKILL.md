@@ -1,6 +1,6 @@
 ---
 name: statistical-inference
-description: "Assess scientific fitting, likelihoods, uncertainty, MCMC, nested sampling, model comparison and statistical calibration. Use for convergence, nuisance dependence, coverage, background/null controls and prior/model sensitivity; do not confuse estimator precision with model adequacy or discovery significance."
+description: "Assesses whether a statistical analysis supports its conclusion: likelihoods and fits, uncertainty and covariance, nuisance parameters and priors, MCMC, optimizer and nested-sampling convergence, model comparison, significance and calibration. Use when someone asks whether a fit, test, p-value, confidence or credible interval, Bayes factor or sampler result can be trusted, or why uncertainties look too small or too large, in any field. Not for routine data cleaning or plotting."
 ---
 
 # Statistical Inference and Evidence

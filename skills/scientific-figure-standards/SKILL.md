@@ -1,6 +1,6 @@
 ---
 name: scientific-figure-standards
-description: "Create or review publication-quality scientific figures: readable final geometry, accessible encodings, correct units/normalization, honest uncertainty, residuals and disclosed binning/selections. Use for evidence presentation, not validation of the underlying analysis."
+description: "Creates and reviews scientific figures so the evidence is readable and honest: final size and export, color-blind-safe encodings, axis units and normalization, uncertainty, residuals, and disclosed binning and selections. Use whenever a plot, chart, heatmap, image panel or multi-panel figure is made or fixed for a paper, poster, thesis, slide or report, including requests like 'make this figure publication-ready' or 'review my plotting script', in any discipline. Not for validating the analysis behind the figure."
 ---
 
 # Scientific Figure Standards

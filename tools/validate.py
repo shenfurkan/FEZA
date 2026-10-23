@@ -165,8 +165,6 @@ for directory in skill_dirs:
         errors.append(f"{directory.relative_to(root)}: missing or oversized description")
     if len(entrypoint[header.end():].splitlines()) >= 500:
         errors.append(f"{directory.relative_to(root)}: skill body must be below 500 lines")
-    if not (directory / "LICENSE").is_file():
-        errors.append(f"{directory.relative_to(root)}: missing license")
     if (directory / "evals").exists():
         errors.append(f"{directory.relative_to(root)}: evaluator material inside installed skill")
     for path in directory.rglob("*"):
@@ -197,10 +195,8 @@ else:
 for path in (root / "README.md", skill / "README.md"):
     if version not in texts.get(path, ""):
         errors.append(f"{path.relative_to(root)}: version missing")
-for path in (root / "LICENSE.txt", skill / "LICENSE"):
-    resolved = input_path(path)
-    if resolved is not None and not resolved.is_file():
-        errors.append(f"{path.relative_to(root)}: missing license")
+if not (root / "LICENSE.txt").is_file():
+    errors.append("LICENSE.txt: missing license")
 
 # Grading material stays outside the installed skill so candidates cannot read answers.
 if (skill / "evals").exists():

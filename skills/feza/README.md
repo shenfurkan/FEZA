@@ -62,7 +62,7 @@ and targeted excerpts. Maps never replace original code or scientific evidence.
 
 ## Rights and scientific limits
 
-[MIT](LICENSE) covers the original instructions, summaries and template. Linked
+[MIT](https://github.com/shenfurkan/FEZA/blob/main/LICENSE.txt) covers the original instructions, summaries and template. Linked
 and locally stored papers, software, documentation and observations retain their
 terms.
 
