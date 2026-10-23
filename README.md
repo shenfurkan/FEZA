@@ -4,15 +4,22 @@
 
 Version 0.0.2 · [MIT license](LICENSE.txt)
 
-FEZA is an astronomy Agent Skill for **OpenCode, Claude Code and Codex**. It brings
-together **native Astropy/Astroquery workflows**, **NASA-informed software
-engineering and assurance practices**, and **AST-based Python navigation designed
-to reduce unnecessary LLM context usage**. Its Markdown instructions and Python
-recipes guide the assistant's work directly in the user's research project.
+FEZA is a collection of Agent Skills for **OpenCode, Claude Code and Codex**. It
+combines general scientific reasoning, programming and analysis guidance with an
+astronomy-specific `feza` skill: **native Astropy/Astroquery workflows**,
+**NASA-informed engineering and assurance practices**, and **AST-based Python
+navigation designed to reduce unnecessary LLM context usage**. Its Markdown
+instructions and recipes guide work directly in the user's research project.
 
 FEZA is not a Python package or a data-reduction pipeline. There is no `import feza`
 or FEZA command-line program. Installing the skill makes its instructions available
 to the assistant; it does not install scientific libraries or run an analysis.
+
+The repository also includes **22 general scientific-analysis skills** for use
+beyond astronomy: scientific reasoning/programming, debugging, statistical inference,
+testing, reproducibility, units, sources, figures and assurance. The existing `feza`
+skill remains the astronomy profile; it is not silently redefined as a universal
+physics tool. See the [general skills guide](docs/general-scientific-skills.md).
 
 ## Contents
 
@@ -20,6 +27,7 @@ to the assistant; it does not install scientific libraries or run an analysis.
 - [NASA-informed engineering and assurance](#nasa-informed-engineering-and-assurance)
 - [Context reduction without discarding evidence](#context-reduction-without-discarding-evidence)
 - [Scope](#scope)
+- [General scientific skills](#general-scientific-skills)
 - [Requirements](#requirements)
 - [Installation](#installation)
   - [Claude Code plugin](#claude-code-plugin)
@@ -133,6 +141,38 @@ The instrument-specific recipes cover Gaia DR3 and first-order STIS `x1d`/`sx1`
 inspection. They do not implement a general reduction pipeline, distance estimator,
 dust-law calibration or universal quality cut. Another instrument needs its own
 product documentation and calibration assumptions.
+
+## General scientific skills
+
+Choose the task-specific skill from the [collection guide](docs/general-scientific-skills.md).
+Each complete `skills/<name>/` directory works independently, with its own Markdown
+references and license. Other skill names mentioned in prose are optional helpers.
+Do not load the entire collection for every task.
+
+[Science Before Bookkeeping](skills/science-before-bookkeeping/SKILL.md) keeps active
+scientific work ahead of optional hash/parity administration: deliver the supported
+physical answer first, and package only at the very end if needed. Mandatory input
+integrity and protected-evaluation controls remain intact.
+
+[Scientific Repair Is Not a Disclaimer](skills/scientific-repair-not-deferral/SKILL.md)
+requires justified interventions with measured before-and-after evidence, independent
+test expectations, verified units and relevant convergence checks—not warnings,
+weakened tolerances or repeated plans presented as completed repairs.
+
+The literature guide includes [remote MinerU PDF-to-LaTeX recipes](skills/literature-tex-miner/references/mineru.md)
+for source-unavailable publications and already retained PDFs. It documents the
+existing client interface, credentials and page-level equation/table checks;
+FEZA does not install MinerU or submit conversions automatically.
+
+The collection preserves simulation/measurement distinctions, applicable units and
+uncertainty, protected-data boundaries and independent verification without importing
+astronomy thresholds or a particular institution's approval process. It is guidance,
+not demonstrated reliability across all disciplines. The installed files contain
+no Python executables; navigation code and checks are optional Markdown recipes.
+
+The [installation guide](INSTALLATION.md#general-scientific-skills) explains selecting
+one of these identifiers instead of `feza`. They are not published or installed by
+this local integration.
 
 ## Requirements
 
@@ -445,6 +485,12 @@ tools/validate.py              # local, dependency-free development checks
 ├── marketplace.json         # catalog used by /plugin marketplace add
 └── plugin.json              # plugin name/version; loads skills/ by default
 
+skills/
+├── thinking-like-a-scientist/ # general scientific reasoning and programming
+├── statistical-inference/    # general estimator/uncertainty guidance
+├── ...                       # other selected general skills; see collection guide
+└── feza/                     # existing astronomy profile, detailed below
+
 skills/feza/
 ├── SKILL.md                 # entrypoint and task routing
 ├── README.md                # installed-directory usage
@@ -489,6 +535,10 @@ results and remaining gaps. The evaluation definitions are in
 [evals/evals.json](evals/evals.json), with synthetic controls
 in [regression-controls.md](evals/regression-controls.md). Synthetic
 controls are not observations or independent scientific validation.
+
+The imported general collection has only static integration checks here; earlier
+tool checks do not establish behavioral acceptance of the adapted Markdown recipes.
+Client discovery/installation and usefulness in other disciplines remain untested.
 
 Run the repository's static checks from a clone with Python 3.12+ and Bash:
 

@@ -13,12 +13,17 @@ if sys.version_info < (3, 12):
 
 root = Path(__file__).resolve().parents[1]
 skill = root / "skills/feza"
+skill_dirs = sorted(path.parent for path in (root / "skills").glob("*/SKILL.md"))
 errors = []
 counts = Counter()
 
 
+def distribution_boundary(path):
+    return next((directory for directory in skill_dirs if path.is_relative_to(directory)), root)
+
+
 def input_path(path):
-    boundary = skill if path.is_relative_to(skill) else root
+    boundary = distribution_boundary(path)
     resolved = path.resolve()
     if not resolved.is_relative_to(boundary):
         label = str(path.relative_to(root)) if path.is_relative_to(root) else "external input"
@@ -91,7 +96,7 @@ def anchors(text):
 
 
 files = [root / "README.md", root / "INSTALLATION.md"]
-for directory in (root / "docs", root / "evals", skill):
+for directory in (root / "docs", root / "evals", *skill_dirs):
     if input_path(directory) is not None:
         files += sorted(directory.rglob("*.md"))
 texts = {}
@@ -134,7 +139,7 @@ for path, text in texts.items():
         destination, _, anchor = link.partition("#")
         target = (path.parent / unquote(destination)).resolve() if destination else path
         counts["relative_links_checked"] += 1
-        boundary = skill if path.is_relative_to(skill) else root
+        boundary = distribution_boundary(path)
         if not target.is_relative_to(boundary):
             errors.append(f"{relative}: link escapes its distribution: {link}")
             continue
@@ -146,6 +151,28 @@ for path, text in texts.items():
     if path.is_relative_to(skill) and re.search(
             r"(?<![\w])literature/|sources\.md|STRICTLY FORBIDDEN|local-primary-source rule", text):
         errors.append(f"{relative}: developer bibliography/rule leaked into the skill")
+
+for directory in skill_dirs:
+    entrypoint = texts.get(directory / "SKILL.md", "")
+    header = re.match(r"\A---\n(.*?)\n---\n", entrypoint, re.S)
+    if not header:
+        errors.append(f"{directory.relative_to(root)}: missing frontmatter")
+        continue
+    if not re.search(r"^name: " + re.escape(directory.name) + r"$", header[1], re.M):
+        errors.append(f"{directory.relative_to(root)}: name/directory mismatch")
+    description = re.search(r"^description: (.+)$", header[1], re.M)
+    if not description or not 0 < len(description[1].strip("\"'")) < 1024:
+        errors.append(f"{directory.relative_to(root)}: missing or oversized description")
+    if len(entrypoint[header.end():].splitlines()) >= 500:
+        errors.append(f"{directory.relative_to(root)}: skill body must be below 500 lines")
+    if not (directory / "LICENSE").is_file():
+        errors.append(f"{directory.relative_to(root)}: missing license")
+    if (directory / "evals").exists():
+        errors.append(f"{directory.relative_to(root)}: evaluator material inside installed skill")
+    for path in directory.rglob("*"):
+        if path.is_file() and path.suffix in {".py", ".sh", ".js", ".ts"}:
+            errors.append(f"{path.relative_to(root)}: executable source must be a Markdown recipe")
+    counts["skill_entrypoints_checked"] += 1
 
 tools = root / "tools"
 if input_path(tools) is not None:

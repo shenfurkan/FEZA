@@ -1,8 +1,29 @@
 # Install FEZA in Claude Code, OpenCode and Codex
 
 FEZA contains Markdown instructions and Python recipes, not a server or Python
-package. Its canonical skill source is `skills/feza/`. Claude Code can install it
-through its native plugin manager; direct skill installation is an alternative.
+package. The astronomy skill is `skills/feza/`; the general scientific collection
+uses separate `skills/<name>/` directories. Claude Code can discover these through
+the plugin's normal `skills/` scan; direct installation of a selected skill is an
+alternative. Local integration does not itself publish or install any skill.
+
+## General scientific skills
+
+See the [collection guide](docs/general-scientific-skills.md) for all twenty-two general
+identifiers. Existing examples below select the astronomy identifier `feza`. To install
+a general skill manually, copy its complete `skills/<name>/` directory to the same
+client discovery location using `<name>` instead of `feza`; preserve `references/`
+and `LICENSE`. Each directory is self-contained and requires no sibling skill.
+
+For an explicitly selected third-party installer invocation, replace the existing
+`--skill feza` selector with the chosen identifier and retain the intended client,
+scope and confirmation behavior. Remote commands can only retrieve files already
+published to that remote; these local additions have not been published here.
+An existing configured source pointing to this clone's `skills/` can discover the
+new entries when the client reloads; this has not been exercised during integration.
+
+Do not copy the repository's developer instructions, evaluations or ignored literature
+into an installation. Navigation implementations/checks are Markdown recipes to adapt
+only when needed and authorized, not installed Python modules or automatically run tests.
 
 ## 1. Claude Code plugin
 

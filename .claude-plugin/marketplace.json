@@ -1,6 +1,6 @@
 {
   "name": "feza",
-  "description": "FEZA astronomy skill for Claude Code.",
+  "description": "FEZA scientific-analysis and astronomy skills for Claude Code.",
   "owner": {
     "name": "shenfurkan"
   },
@@ -8,7 +8,7 @@
     {
       "name": "feza",
       "source": "./",
-      "description": "Astronomy analysis recipes and Python source navigation."
+      "description": "General scientific-analysis skills, astronomy recipes and Python source navigation."
     }
   ]
 }
