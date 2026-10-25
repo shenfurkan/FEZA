@@ -18,6 +18,7 @@ manifest.
 - [Publication](#publication)
 - [Agent Skills and client integration](#agent-skills-and-client-integration)
 - [Skeleton design basis](#skeleton-design-basis)
+- [Six Locks](#six-locks)
 - [License boundary](#license-boundary)
 
 ## Astropy analysis recipes
@@ -254,6 +255,46 @@ Appendix D withholds full source/tree dumps and Appendix F asserts pending
 patents. None is a FEZA compression guarantee, benchmark or patent-clearance
 opinion. FEZA retains richer code contracts; actual context/quality gains remain
 unmeasured. Python lexical tokens or byte counts are not model-token counts.
+
+## Six Locks
+
+The operator excluded Moving-Block Bootstrap during this task, leaving five new
+engineering skills. The section's requested historical name is retained. See the
+[scope and common doctrine](six-locks-boundary.md) and the
+[download receipts, claim map, blockers and acceptance record](six-locks-provenance.md).
+These source inputs remain Git-ignored; every installed skill contains its own
+portable bibliography/contract and needs no developer collection or repository root.
+
+The table indexes **every** acquired response, including denied/missing pages,
+the excluded bootstrap paper and the subscription preview. Only the explicitly
+selected passages in the evidence map support the five skills. Local access does
+not change the source's copyright/licence. Downloaded Java/YAML was inspected as
+source data and never executed, compiled, installed or distributed as software.
+
+| ID | Local file | Full requested URL | Use/status |
+|---|---|---|---|
+| Q1 | `literature/six-locks/golangcilint_faq_20261025.html` | https://golangci-lint.run/docs/welcome/faq/ | First-party ratchet-related capability and CI exit handling |
+| Q2 | `literature/six-locks/mypybaseline_usage_20261025.html` | https://mypy-baseline.orsinium.dev/usage.html | BLOCKED, retained 403 body |
+| M0 | `literature/six-locks/kunsch_1989_stationary-bootstrap-access.html` | https://projecteuclid.org/journals/annals-of-statistics/volume-17/issue-3/The-Jackknife-and-the-Bootstrap-for-General-Stationary-Observations/10.1214/aos/1176347265.full | Challenge body, not article; bootstrap EXCLUDED |
+| M1 | `literature/six-locks/politis_2004_automatic-block-length.pdf` | https://public.econ.duke.edu/~ap172/Politis_White_2004.pdf | Acquired before scope correction; EXCLUDED/unread |
+| A1 | `literature/six-locks/bazel_remote-caching_20261025.html` | https://bazel.build/remote/caching | Action cache/CAS, not source-AST hashing |
+| A2 | `literature/six-locks/nix_derivations_20261025.html` | https://nix.dev/manual/nix/2.24/store/derivation/ | BLOCKED, retained 404 page |
+| A3 | `literature/six-locks/unison_big-idea_20261025.html` | https://www.unison-lang.org/docs/the-big-idea/ | Direct syntax-tree-addressed code example |
+| Q2b | `literature/six-locks/mypybaseline_readme_20261025.md` | https://raw.githubusercontent.com/orsinium-labs/mypy-baseline/master/README.md | Upstream baseline synchronization/filtering |
+| Q3 | `literature/six-locks/golangcilintaction_workflow_20261025.yml` | https://raw.githubusercontent.com/golangci/golangci-lint-action/master/.github/workflows/test.yml | Concrete new-only workflow with success-on-issues setting; not enforcing evidence |
+| A2b | `literature/six-locks/nix_derivations-v2.34_20261025.html` | https://nix.dev/manual/nix/2.34/store/derivation/ | Canonical derivation/store-object representation, version 2.34 |
+| S1 | `literature/six-locks/fowler_strangler-fig_20261025.html` | https://martinfowler.com/bliki/StranglerFigApplication.html | Later author revision dated 2024-08-22; discovery context only |
+| S2 | `literature/six-locks/fowler_branch-abstraction_20261025.html` | https://martinfowler.com/bliki/BranchByAbstraction.html | Historical/descriptive author essay dated 2014-01-07 |
+| E1 | `literature/six-locks/klein_2005_blind-analysis.pdf` | https://slac.stanford.edu/pubs/slacpubs/12000/slac-pub-12051.pdf | SLAC-PUB-12051 author manuscript, not inspected journal version |
+| E3 | `literature/six-locks/fda_2022_multiple-endpoints.pdf` | https://www.fda.gov/media/162416/download | October 2022 final nonbinding guidance; clinical scope only |
+| F1 | `literature/six-locks/nygard_2007_release-it-preview.pdf` | https://media.pragprog.com/titles/mnee/mnee-antipatterns.pdf | Publisher excerpt, 2007 copyright / 2009 printing; full book unexamined |
+| E2a | `literature/six-locks/chambers_2022_registered-reports-access.html` | https://www.nature.com/articles/s41562-021-01193-7 | Subscription preview, abstract/metadata only; not method evidence |
+| E2 | `literature/six-locks/plos_registered-reports_20261025.pdf` | https://plos-marketing.s3.amazonaws.com/Marketing/Biology+Preregistered+Articles+Guidelines+for+Authors.pdf | Official PLOS Biology policy updated 2020-01-28 |
+| S3 | `literature/six-locks/microsoft_strangler-fig_20261025.html` | https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig | Official architecture guidance, updated 2026-06-02 |
+| F2a | `literature/six-locks/resilience4j_circuitbreaker-v2.3.0_20261025.java` | https://raw.githubusercontent.com/resilience4j/resilience4j/v2.3.0/resilience4j-circuitbreaker/src/main/java/io/github/resilience4j/circuitbreaker/CircuitBreaker.java | First-party v2.3.0 API/state/permission documentation; static only |
+| F2b | `literature/six-locks/resilience4j_config-v2.3.0_20261025.java` | https://raw.githubusercontent.com/resilience4j/resilience4j/v2.3.0/resilience4j-circuitbreaker/src/main/java/io/github/resilience4j/circuitbreaker/CircuitBreakerConfig.java | First-party v2.3.0 configuration/API documentation; static only |
+| E3a | `literature/six-locks/fda_multiple-endpoints-status_20261025.html` | https://www.fda.gov/regulatory-information/search-fda-guidance-documents/multiple-endpoints-clinical-trials | Official status metadata for E3, Final; content current 2024-04-16 |
+| S1o | `literature/six-locks/fowler_2004_original-strangler-fig.html` | https://martinfowler.com/bliki/OriginalStranglerFigApplication.html | Original 2004-06-29 author post, explicitly superseded; historical citation only |
 
 ## License boundary
 
